@@ -3,7 +3,7 @@ Traceback (most recent call last):
     executenb(
   File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/nbclient/client.py", line 1305, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 162, in wrapped
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 172, in wrapped
     return loop.run_until_complete(inner)
   File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
     return future.result()
@@ -15,37 +15,85 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import timeit
+# calculate the relative error for Taylor series expansions from 1st to 10th order
+orders = np.arange(1, 11)
+relative_errors = []
+true_value = np.exp(1)
 
-def time_second_order():
-    return exptaylor(1, 2)
+for n in orders:
+    approximation = exptaylor(x, n)
+    relative_error = abs(approximation - true_value) / true_value
+    relative_errors.append(relative_error)
 
-def time_tenth_order():
-    return exptaylor(1, 10)
-
-# timing the functions
-time_second_order_duration = timeit.timeit(time_second_order, number=1000)
-time_tenth_order_duration = timeit.timeit(time_tenth_order, number=1000)
-
-# calculate the average time per run for both cases
-average_time_second_order = time_second_order_duration / 1000
-average_time_tenth_order = time_tenth_order_duration / 1000
-
-# estimate the time for a 100,000-order series
-# this is a simple estimate, real performance may vary due to computational complexity
-estimate_100k_order = (average_time_tenth_order / 10) * 100000
-
-print(estimate_100k_orde)
+# plot the relative error on a log-log scale
+plt.figure(figsize=(10, 6))
+plt.loglog(orders, relative_errors, 'bo-', basex=10, basey=10)
+plt.xlabel('Order of Taylor Series Expansion')
+plt.ylabel('Relative Error')
+plt.title('Relative Error of Taylor Series Approximation of e')
+plt.grid(True, which="both", ls="--")
+plt.show()
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[16], line 21[0m
-[1;32m     17[0m [38;5;66;03m# estimate the time for a 100,000-order series[39;00m
-[1;32m     18[0m [38;5;66;03m# this is a simple estimate, real performance may vary due to computational complexity[39;00m
-[1;32m     19[0m estimate_100k_order [38;5;241m=[39m (average_time_tenth_order [38;5;241m/[39m [38;5;241m10[39m) [38;5;241m*[39m [38;5;241m100000[39m
-[0;32m---> 21[0m [38;5;28mprint[39m([43mestimate_100k_orde[49m)
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[17], line 13[0m
+[1;32m     11[0m [38;5;66;03m# plot the relative error on a log-log scale[39;00m
+[1;32m     12[0m plt[38;5;241m.[39mfigure(figsize[38;5;241m=[39m([38;5;241m10[39m, [38;5;241m6[39m))
+[0;32m---> 13[0m [43mplt[49m[38;5;241;43m.[39;49m[43mloglog[49m[43m([49m[43morders[49m[43m,[49m[43m [49m[43mrelative_errors[49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mbo-[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mbasex[49m[38;5;241;43m=[39;49m[38;5;241;43m10[39;49m[43m,[49m[43m [49m[43mbasey[49m[38;5;241;43m=[39;49m[38;5;241;43m10[39;49m[43m)[49m
+[1;32m     14[0m plt[38;5;241m.[39mxlabel([38;5;124m'[39m[38;5;124mOrder of Taylor Series Expansion[39m[38;5;124m'[39m)
+[1;32m     15[0m plt[38;5;241m.[39mylabel([38;5;124m'[39m[38;5;124mRelative Error[39m[38;5;124m'[39m)
 
-[0;31mNameError[0m: name 'estimate_100k_orde' is not defined
+File [0;32m/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/pyplot.py:3383[0m, in [0;36mloglog[0;34m(*args, **kwargs)[0m
+[1;32m   3381[0m [38;5;129m@_copy_docstring_and_deprecators[39m(Axes[38;5;241m.[39mloglog)
+[1;32m   3382[0m [38;5;28;01mdef[39;00m [38;5;21mloglog[39m([38;5;241m*[39margs, [38;5;241m*[39m[38;5;241m*[39mkwargs) [38;5;241m-[39m[38;5;241m>[39m [38;5;28mlist[39m[Line2D]:
+[0;32m-> 3383[0m     [38;5;28;01mreturn[39;00m [43mgca[49m[43m([49m[43m)[49m[38;5;241;43m.[39;49m[43mloglog[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_axes.py:1857[0m, in [0;36mAxes.loglog[0;34m(self, *args, **kwargs)[0m
+[1;32m   1814[0m [38;5;250m[39m[38;5;124;03m"""[39;00m
+[1;32m   1815[0m [38;5;124;03mMake a plot with log scaling on both the x- and y-axis.[39;00m
+[1;32m   1816[0m 
+[0;32m   (...)[0m
+[1;32m   1852[0m [38;5;124;03m    Objects representing the plotted data.[39;00m
+[1;32m   1853[0m [38;5;124;03m"""[39;00m
+[1;32m   1854[0m dx [38;5;241m=[39m {k: v [38;5;28;01mfor[39;00m k, v [38;5;129;01min[39;00m kwargs[38;5;241m.[39mitems()
+[1;32m   1855[0m       [38;5;28;01mif[39;00m k [38;5;129;01min[39;00m [[38;5;124m'[39m[38;5;124mbase[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124msubs[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mnonpositive[39m[38;5;124m'[39m,
+[1;32m   1856[0m                [38;5;124m'[39m[38;5;124mbasex[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124msubsx[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mnonposx[39m[38;5;124m'[39m]}
+[0;32m-> 1857[0m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mset_xscale[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43mlog[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mdx[49m[43m)[49m
+[1;32m   1858[0m dy [38;5;241m=[39m {k: v [38;5;28;01mfor[39;00m k, v [38;5;129;01min[39;00m kwargs[38;5;241m.[39mitems()
+[1;32m   1859[0m       [38;5;28;01mif[39;00m k [38;5;129;01min[39;00m [[38;5;124m'[39m[38;5;124mbase[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124msubs[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mnonpositive[39m[38;5;124m'[39m,
+[1;32m   1860[0m                [38;5;124m'[39m[38;5;124mbasey[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124msubsy[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mnonposy[39m[38;5;124m'[39m]}
+[1;32m   1861[0m [38;5;28mself[39m[38;5;241m.[39mset_yscale([38;5;124m'[39m[38;5;124mlog[39m[38;5;124m'[39m, [38;5;241m*[39m[38;5;241m*[39mdy)
+
+File [0;32m/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_base.py:73[0m, in [0;36m_axis_method_wrapper.__set_name__.<locals>.wrapper[0;34m(self, *args, **kwargs)[0m
+[1;32m     72[0m [38;5;28;01mdef[39;00m [38;5;21mwrapper[39m([38;5;28mself[39m, [38;5;241m*[39margs, [38;5;241m*[39m[38;5;241m*[39mkwargs):
+[0;32m---> 73[0m     [38;5;28;01mreturn[39;00m [43mget_method[49m[43m([49m[38;5;28;43mself[39;49m[43m)[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axis.py:837[0m, in [0;36mAxis._set_axes_scale[0;34m(self, value, **kwargs)[0m
+[1;32m    834[0m old_default_lims [38;5;241m=[39m ([38;5;28mself[39m[38;5;241m.[39mget_major_locator()
+[1;32m    835[0m                     [38;5;241m.[39mnonsingular([38;5;241m-[39mnp[38;5;241m.[39minf, np[38;5;241m.[39minf))
+[1;32m    836[0m [38;5;28;01mfor[39;00m ax [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39m_get_shared_axes():
+[0;32m--> 837[0m     [43max[49m[38;5;241;43m.[39;49m[43m_axis_map[49m[43m[[49m[43mname[49m[43m][49m[38;5;241;43m.[39;49m[43m_set_scale[49m[43m([49m[43mvalue[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    838[0m     ax[38;5;241m.[39m_update_transScale()
+[1;32m    839[0m     ax[38;5;241m.[39mstale [38;5;241m=[39m [38;5;28;01mTrue[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axis.py:796[0m, in [0;36mAxis._set_scale[0;34m(self, value, **kwargs)[0m
+[1;32m    794[0m [38;5;28;01mdef[39;00m [38;5;21m_set_scale[39m([38;5;28mself[39m, value, [38;5;241m*[39m[38;5;241m*[39mkwargs):
+[1;32m    795[0m     [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m [38;5;28misinstance[39m(value, mscale[38;5;241m.[39mScaleBase):
+[0;32m--> 796[0m         [38;5;28mself[39m[38;5;241m.[39m_scale [38;5;241m=[39m [43mmscale[49m[38;5;241;43m.[39;49m[43mscale_factory[49m[43m([49m[43mvalue[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    797[0m     [38;5;28;01melse[39;00m:
+[1;32m    798[0m         [38;5;28mself[39m[38;5;241m.[39m_scale [38;5;241m=[39m value
+
+File [0;32m/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/scale.py:717[0m, in [0;36mscale_factory[0;34m(scale, axis, **kwargs)[0m
+[1;32m    708[0m [38;5;250m[39m[38;5;124;03m"""[39;00m
+[1;32m    709[0m [38;5;124;03mReturn a scale class by name.[39;00m
+[1;32m    710[0m 
+[0;32m   (...)[0m
+[1;32m    714[0m [38;5;124;03maxis : `~matplotlib.axis.Axis`[39;00m
+[1;32m    715[0m [38;5;124;03m"""[39;00m
+[1;32m    716[0m scale_cls [38;5;241m=[39m _api[38;5;241m.[39mcheck_getitem(_scale_mapping, scale[38;5;241m=[39mscale)
+[0;32m--> 717[0m [38;5;28;01mreturn[39;00m [43mscale_cls[49m[43m([49m[43maxis[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+[0;31mTypeError[0m: __init__() got an unexpected keyword argument 'basex'
 

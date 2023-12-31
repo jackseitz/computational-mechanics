@@ -506,9 +506,60 @@ min later the temperature is 80<span class="math notranslate nohighlight">\(^{o}
 <ol class="arabic simple">
 <li><p>Use Python to calculate <span class="math notranslate nohighlight">\(K\)</span> using a finite difference approximation, <span class="math notranslate nohighlight">\(\frac{dT}{dt} \approx \frac{T(t+\Delta t)-T(t)}{\Delta t}\)</span>.</p></li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_initial</span> <span class="o">=</span> <span class="mi">85</span>  <span class="c1"># Temperature of the corpse at 11:00 am in Fahrenheit</span>
+<span class="n">T_45min</span> <span class="o">=</span> <span class="mi">80</span>  <span class="c1"># Temperature of the corpse 45 minutes later in Fahrenheit</span>
+<span class="n">T_ambient</span> <span class="o">=</span> <span class="mi">65</span>  <span class="c1"># Ambient temperature in Fahrenheit</span>
+<span class="n">delta_t</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">/</span> <span class="mi">60</span>  <span class="c1"># Time difference in hours (45 minutes)</span>
+
+<span class="c1"># Finite difference approximation to calculate dT/dt</span>
+<span class="n">dT_dt_approx</span> <span class="o">=</span> <span class="p">(</span><span class="n">T_45min</span> <span class="o">-</span> <span class="n">T_initial</span><span class="p">)</span> <span class="o">/</span> <span class="n">delta_t</span>
+
+<span class="c1"># Now we can solve for K using the formula dT/dt = -K(T - Ta)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="o">-</span><span class="n">dT_dt_approx</span> <span class="o">/</span> <span class="p">(</span><span class="n">T_initial</span> <span class="o">-</span> <span class="n">T_ambient</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;K =&quot;</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>K = 0.33333333333333337
+</pre></div>
+</div>
+</div>
+</div>
 <ol class="arabic simple" start="2">
 <li><p>Change your work from problem 1 to create a function that accepts the temperature at two times, ambient temperature, and the time elapsed to return <span class="math notranslate nohighlight">\(K\)</span>.</p></li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_k</span><span class="p">(</span><span class="n">T_initial</span><span class="p">,</span> <span class="n">T_final</span><span class="p">,</span> <span class="n">T_ambient</span><span class="p">,</span> <span class="n">time_elapsed_hours</span><span class="p">):</span>
+    <span class="c1"># Finite difference approximation to calculate dT/dt</span>
+    <span class="n">dT_dt_approx</span> <span class="o">=</span> <span class="p">(</span><span class="n">T_final</span> <span class="o">-</span> <span class="n">T_initial</span><span class="p">)</span> <span class="o">/</span> <span class="n">time_elapsed_hours</span>
+
+    <span class="c1"># Solve for K using the formula dT/dt = -K(T - Ta)</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="o">-</span><span class="n">dT_dt_approx</span> <span class="o">/</span> <span class="p">(</span><span class="n">T_initial</span> <span class="o">-</span> <span class="n">T_ambient</span><span class="p">)</span>
+    
+    <span class="c1"># Return K</span>
+    <span class="k">return</span> <span class="n">K</span>
+
+<span class="c1"># Using the values from part 1:</span>
+<span class="n">T_initial_example</span> <span class="o">=</span> <span class="mi">85</span> 
+<span class="n">T_final_example</span> <span class="o">=</span> <span class="mi">80</span> 
+<span class="n">T_ambient_example</span> <span class="o">=</span> <span class="mi">65</span>  
+<span class="n">time_elapsed_example</span> <span class="o">=</span> <span class="mi">45</span> <span class="o">/</span> <span class="mi">60</span>  
+
+<span class="n">K</span> <span class="o">=</span> <span class="n">calculate_k</span><span class="p">(</span><span class="n">T_initial_example</span><span class="p">,</span> <span class="n">T_final_example</span><span class="p">,</span> <span class="n">T_ambient_example</span><span class="p">,</span> <span class="n">time_elapsed_example</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;K =&quot;</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>K = 0.33333333333333337
+</pre></div>
+</div>
+</div>
+</div>
 <ol class="arabic" start="3">
 <li><p>A first-order thermal system has the following analytical solution,</p>
 <p><span class="math notranslate nohighlight">\(T(t) =T_a+(T(0)-T_a)e^{-Kt}\)</span></p>
@@ -518,6 +569,85 @@ min later the temperature is 80<span class="math notranslate nohighlight">\(^{o}
 <p>c. At what time was the corpse 98.6<span class="math notranslate nohighlight">\(^{o}\)</span>F? i.e. what was the time of death?</p>
 </li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Given values</span>
+<span class="n">T_initial</span> <span class="o">=</span> <span class="mi">85</span>  <span class="c1"># Initial temperature of the corpse (T(0))</span>
+<span class="n">T_ambient</span> <span class="o">=</span> <span class="mi">65</span>  <span class="c1"># Ambient temperature (T_a)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="mf">0.3333</span>       <span class="c1"># Approximation of empirical constant (K)</span>
+
+<span class="c1"># Analytical solution function</span>
+<span class="k">def</span> <span class="nf">analytical_solution</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">Ta</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Ta</span> <span class="o">+</span> <span class="p">(</span><span class="n">T0</span> <span class="o">-</span> <span class="n">Ta</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">K</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+
+<span class="c1"># Euler integration function for the cooling process</span>
+<span class="k">def</span> <span class="nf">euler_integration</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">Ta</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">time_steps</span><span class="p">):</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">T0</span>  <span class="c1"># Initial temperature</span>
+    <span class="n">temperatures</span> <span class="o">=</span> <span class="p">[</span><span class="n">T</span><span class="p">]</span>  <span class="c1"># List to store temperatures</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_steps</span><span class="p">)):</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time_steps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">time_steps</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dT</span> <span class="o">=</span> <span class="o">-</span><span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">Ta</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+        <span class="n">T</span> <span class="o">+=</span> <span class="n">dT</span>
+        <span class="n">temperatures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">temperatures</span><span class="p">)</span>
+
+<span class="c1"># Time steps for analysis</span>
+<span class="n">time_steps_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># Fine time steps</span>
+<span class="n">time_steps_coarse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># Coarse time steps</span>
+
+<span class="c1"># Euler integration results for fine and coarse time steps</span>
+<span class="n">euler_temperatures_fine</span> <span class="o">=</span> <span class="n">euler_integration</span><span class="p">(</span><span class="n">T_initial</span><span class="p">,</span> <span class="n">T_ambient</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">time_steps_fine</span><span class="p">)</span>
+<span class="n">euler_temperatures_coarse</span> <span class="o">=</span> <span class="n">euler_integration</span><span class="p">(</span><span class="n">T_initial</span><span class="p">,</span> <span class="n">T_ambient</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">time_steps_coarse</span><span class="p">)</span>
+
+<span class="c1"># Analytical solution results for comparison</span>
+<span class="n">analytical_temperatures_fine</span> <span class="o">=</span> <span class="n">analytical_solution</span><span class="p">(</span><span class="n">T_initial</span><span class="p">,</span> <span class="n">T_ambient</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">time_steps_fine</span><span class="p">)</span>
+
+<span class="c1"># Plotting the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_steps_fine</span><span class="p">,</span> <span class="n">euler_temperatures_fine</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Euler Integration (Fine Steps)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_steps_fine</span><span class="p">,</span> <span class="n">analytical_temperatures_fine</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Analytical Solution&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_steps_coarse</span><span class="p">,</span> <span class="n">euler_temperatures_coarse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Euler Integration (Coarse Steps)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (hours)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Temperature (°F)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison of Euler Integration and Analytical Solution for Cooling&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2007c360792827bd89ce04dd7bf42b0e490e888a8cab006d5cad4b2d7ae674f9.png" src="../_images/2007c360792827bd89ce04dd7bf42b0e490e888a8cab006d5cad4b2d7ae674f9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Part b: Determining the final temperature as t approaches infinity</span>
+<span class="c1"># The final temperature should theoretically be the ambient temperature T_a</span>
+<span class="n">final_temperature</span> <span class="o">=</span> <span class="n">T_ambient</span>
+
+<span class="c1"># Part c: Calculate the time of death given the corpse&#39;s temperature was 98.6°F</span>
+<span class="c1"># We rearrange the analytical solution to solve for t:</span>
+<span class="c1"># 98.6 = T_a + (T(0) - T_a)e^{-Kt}</span>
+<span class="c1"># We can isolate e^{-Kt} and then take the natural logarithm to solve for t</span>
+
+<span class="n">T_body_normal</span> <span class="o">=</span> <span class="mf">98.6</span>  <span class="c1"># Normal body temperature in Fahrenheit</span>
+
+<span class="c1"># Solving for t</span>
+<span class="n">time_of_death</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">T_body_normal</span> <span class="o">-</span> <span class="n">T_ambient</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">T_initial</span> <span class="o">-</span> <span class="n">T_ambient</span><span class="p">))</span> <span class="o">/</span> <span class="n">K</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final Temp: &quot;</span><span class="p">,</span> <span class="n">final_temperature</span><span class="p">,</span> <span class="s2">&quot;Degrees&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time of Death: &quot;</span><span class="p">,</span> <span class="n">time_of_death</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final Temp:  65 Degrees
+Time of Death:  -1.556537033948897
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">

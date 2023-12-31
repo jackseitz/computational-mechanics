@@ -836,8 +836,8 @@ of the two indices from 0 to 9 e.g. A_99[3,2]=6 and A_99[4,4]=16.</p></li>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20.25
 20.054612935681405
-CPU times: user 357 µs, sys: 216 µs, total: 573 µs
-Wall time: 191 µs
+CPU times: user 109 µs, sys: 66 µs, total: 175 µs
+Wall time: 173 µs
 </pre></div>
 </div>
 </div>
@@ -1096,20 +1096,12 @@ average growth of 1900 - 2020
 <span class="c1"># this is a simple estimate, real performance may vary due to computational complexity</span>
 <span class="n">estimate_100k_order</span> <span class="o">=</span> <span class="p">(</span><span class="n">average_time_tenth_order</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100000</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">estimate_100k_orde</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">estimate_100k_order</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">21</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># estimate the time for a 100,000-order series</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="c1"># this is a simple estimate, real performance may vary due to computational complexity</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">estimate_100k_order</span> <span class="o">=</span> <span class="p">(</span><span class="n">average_time_tenth_order</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100000</span>
-<span class="ne">---&gt; </span><span class="mi">21</span> <span class="nb">print</span><span class="p">(</span><span class="n">estimate_100k_orde</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;estimate_100k_orde&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.04043998999975429
 </pre></div>
 </div>
 </div>
@@ -1136,6 +1128,71 @@ average growth of 1900 - 2020
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="c1"># plot the relative error on a log-log scale</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">orders</span><span class="p">,</span> <span class="n">relative_errors</span><span class="p">,</span> <span class="s1">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">basex</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">basey</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Order of Taylor Series Expansion&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Relative Error&#39;</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/pyplot.py:3383,</span> in <span class="ni">loglog</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3381</span> <span class="nd">@_copy_docstring_and_deprecators</span><span class="p">(</span><span class="n">Axes</span><span class="o">.</span><span class="n">loglog</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3382</span> <span class="k">def</span> <span class="nf">loglog</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]:</span>
+<span class="ne">-&gt; </span><span class="mi">3383</span>     <span class="k">return</span> <span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_axes.py:1857,</span> in <span class="ni">Axes.loglog</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1814</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1815</span><span class="sd"> Make a plot with log scaling on both the x- and y-axis.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1816</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1852</span><span class="sd">     Objects representing the plotted data.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1853</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="nn">   1854 dx = {k: v for k, v</span> in <span class="ni">kwargs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1855</span>       <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="s1">&#39;subs&#39;</span><span class="p">,</span> <span class="s1">&#39;nonpositive&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1856</span>                <span class="s1">&#39;basex&#39;</span><span class="p">,</span> <span class="s1">&#39;subsx&#39;</span><span class="p">,</span> <span class="s1">&#39;nonposx&#39;</span><span class="p">]}</span>
+<span class="ne">-&gt; </span><span class="mi">1857</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dx</span><span class="p">)</span>
+<span class="nn">   1858 dy = {k: v for k, v</span> in <span class="ni">kwargs.items</span><span class="nt">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1859</span>       <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;base&#39;</span><span class="p">,</span> <span class="s1">&#39;subs&#39;</span><span class="p">,</span> <span class="s1">&#39;nonpositive&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1860</span>                <span class="s1">&#39;basey&#39;</span><span class="p">,</span> <span class="s1">&#39;subsy&#39;</span><span class="p">,</span> <span class="s1">&#39;nonposy&#39;</span><span class="p">]}</span>
+<span class="g g-Whitespace">   </span><span class="mi">1861</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dy</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_base.py:73,</span> in <span class="ni">_axis_method_wrapper.__set_name__.&lt;locals&gt;.wrapper</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">73</span>     <span class="k">return</span> <span class="n">get_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axis.py:837,</span> in <span class="ni">Axis._set_axes_scale</span><span class="nt">(self, value, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">834</span> <span class="n">old_default_lims</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_major_locator</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span>                     <span class="o">.</span><span class="n">nonsingular</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">836</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_shared_axes</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">837</span>     <span class="n">ax</span><span class="o">.</span><span class="n">_axis_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">_set_scale</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">838</span>     <span class="n">ax</span><span class="o">.</span><span class="n">_update_transScale</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">839</span>     <span class="n">ax</span><span class="o">.</span><span class="n">stale</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axis.py:796,</span> in <span class="ni">Axis._set_scale</span><span class="nt">(self, value, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">794</span> <span class="k">def</span> <span class="nf">_set_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">795</span>     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">mscale</span><span class="o">.</span><span class="n">ScaleBase</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">796</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">mscale</span><span class="o">.</span><span class="n">scale_factory</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">797</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/scale.py:717,</span> in <span class="ni">scale_factory</span><span class="nt">(scale, axis, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">708</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">709</span><span class="sd"> Return a scale class by name.</span>
+<span class="g g-Whitespace">    </span><span class="mi">710</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">714</span><span class="sd"> axis : `~matplotlib.axis.Axis`</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">716</span> <span class="n">scale_cls</span> <span class="o">=</span> <span class="n">_api</span><span class="o">.</span><span class="n">check_getitem</span><span class="p">(</span><span class="n">_scale_mapping</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">717</span> <span class="k">return</span> <span class="n">scale_cls</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="ne">TypeError</span>: __init__() got an unexpected keyword argument &#39;basex&#39;
+</pre></div>
+</div>
+<img alt="../_images/be9aaa62c3aa43456b84254ff219600ab8b45b53f8c88c13fcdfc759bf139a9d.png" src="../_images/be9aaa62c3aa43456b84254ff219600ab8b45b53f8c88c13fcdfc759bf139a9d.png" />
 </div>
 </div>
 </section>
