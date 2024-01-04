@@ -534,6 +534,55 @@ the top of the csv. What are the headings for the columns?</p>
 (<code class="docutils literal notranslate"><span class="pre">NaN</span></code>) are
 in the column with the number of transistors? What fraction are
 missing?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>head<span class="w"> </span><span class="s2">&quot;../data/transistor_data.csv&quot;</span>
+<span class="sd">&#39;&#39;&#39;Headings are: Processor, MOS transistor count, Date of Introduction, Designer, MOSprocess, and Area&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processor,MOS transistor count,Date of Introduction,Designer,MOSprocess,Area
+&quot;MP944 (20-bit, 6-chip)&quot;,NaN,1970,Garrett AiResearch,?,?
+&quot;Intel 4004 (4-bit, 16-pin)&quot;,2250,1971,Intel,&quot;10,000 nm&quot;,12 mm²
+&quot;Intel 8008 (8-bit, 18-pin)&quot;,3500,1972,Intel,&quot;10,000 nm&quot;,14 mm²
+&quot;NEC μCOM-4 (4-bit, 42-pin)&quot;,2500,1973,NEC,&quot;7,500 nm&quot;,?
+&quot;Intel 4040 (4-bit, 16-pin)&quot;,3000,1974,Intel,&quot;10,000 nm&quot;,12 mm²
+&quot;Motorola 6800 (8-bit, 40-pin)&quot;,4100,1974,Motorola,&quot;6,000 nm&quot;,16 mm²
+&quot;Intel 8080 (8-bit, 40-pin)&quot;,6000,1974,Intel,&quot;6,000 nm&quot;,20 mm²
+&quot;TMS 1000 (4-bit, 28-pin)&quot;,8000,1974,Texas Instruments,&quot;8,000 nm&quot;,11 mm²
+&quot;MOS Technology 6502 (8-bit, 40-pin)&quot;,4528,1975,MOS Technology,&quot;8,000 nm&quot;,21 mm²
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Headings are: Processor, MOS transistor count, Date of Introduction, Designer, MOSprocess, and Area&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/transistor_data.csv&#39;</span><span class="p">)</span>
+
+<span class="n">no_nan</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">no_nan</span> <span class="o">=</span> <span class="n">no_nan</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">with_nan</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">nan_values</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">with_nan</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">no_nan</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The number of nan values in the column labeled &quot;MOS transistor count&quot; is&#39;</span><span class="p">,</span> <span class="n">nan_values</span><span class="p">)</span>
+
+<span class="n">pct_missing</span> <span class="o">=</span> <span class="p">(</span><span class="n">nan_values</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">with_nan</span><span class="p">))</span><span class="o">*</span><span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This percentage of missing column values is approx.&#39;</span><span class="p">,</span> <span class="n">pct_missing</span><span class="p">,</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The number of nan values in the column labeled &quot;MOS transistor count&quot; is 7
+This percentage of missing column values is approx. 3.763440860215054 %
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="problems-part-2">
 <h2>Problems <a class="reference internal" href="02_Seeing_Stats.html"><span class="doc std std-doc">Part 2</span></a><a class="headerlink" href="#problems-part-2" title="Permalink to this heading">#</a></h2>
@@ -547,6 +596,42 @@ our dataset by removing rows that do not include the IBU measure.</p>
 plot</a> with <code class="docutils literal notranslate"><span class="pre">beers_filled</span></code>. What differences do you notice between the plots?</p>
 </li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+
+<span class="n">beers</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/beers.csv&quot;</span><span class="p">)</span>
+<span class="n">beers_filled</span> <span class="o">=</span> <span class="n">beers</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">beers_styles</span> <span class="o">=</span> <span class="n">beers_filled</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;brewery_id&#39;</span><span class="p">,</span><span class="s1">&#39;ounces&#39;</span><span class="p">,</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">style_counts</span> <span class="o">=</span> <span class="n">beers_styles</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">style_means</span> <span class="o">=</span> <span class="n">beers_styles</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">style_counts</span> <span class="o">=</span> <span class="n">style_counts</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="n">style_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">style_counts</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">style_means</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> 
+                               <span class="n">x</span><span class="o">=</span><span class="s1">&#39;abv&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;ibu&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">style_counts</span><span class="o">*</span><span class="mi">20</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                               <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Beer ABV vs. IBU mean values by style</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+                               <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">style_counts</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">style_counts</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">65</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">style_means</span><span class="o">.</span><span class="n">abv</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">style_means</span><span class="o">.</span><span class="n">ibu</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="w">        </span>
+<span class="sd">&#39;&#39;&#39;A notable difference between the two plots would be the higher central concentration/location of points in this new plot. Additionally, the new plot now has more styles attached to bubbles, accounting for those that were ignored when nan values were dropped. There is also a new concentration of styles with a 0 IBU value.&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;A notable difference between the two plots would be the higher central concentration/location of points in this new plot. Additionally, the new plot now has more styles attached to bubbles, accounting for those that were ignored when nan values were dropped. There is also a new concentration of styles with a 0 IBU value.&#39;
+</pre></div>
+</div>
+<img alt="../_images/db3b35ad3da4ab2b0ce127d26339347dbd0f557aa0b9eaa40fd02cce5403ec42.png" src="../_images/db3b35ad3da4ab2b0ce127d26339347dbd0f557aa0b9eaa40fd02cce5403ec42.png" />
+</div>
+</div>
 <ol class="arabic" start="2">
 <li><p>Gordon Moore created an empirical prediction that the rate of
 semiconductors on a computer chip would double every two years. This
@@ -575,6 +660,92 @@ Make a boxplot of the transistor count in 2017 and find the first, second and th
 Color the data according to the “Designer”.</p>
 </li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/transistor_data.csv&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span> <span class="c1">#to check the headings of the dataframe</span>
+
+<span class="n">trans_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date of Introduction&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2017</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trans_data</span><span class="p">)</span>
+
+<span class="n">mos_sum</span> <span class="o">=</span> <span class="n">trans_data</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">mos_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trans_data</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">avg_mos_count</span> <span class="o">=</span> <span class="n">mos_sum</span><span class="o">/</span><span class="n">mos_count</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In 2017, the average MOS transistor count was&#39;</span><span class="p">,</span> <span class="n">avg_mos_count</span><span class="p">)</span>
+
+<span class="c1">#Boxplot and quartiles:</span>
+<span class="n">mos</span> <span class="o">=</span> <span class="n">trans_data</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">mos</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MOS Transistor Count in 2017&#39;</span><span class="p">]);</span>
+<span class="n">Q1_mos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">mos</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">Q2_mos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">mos</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">Q3_mos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">mos</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The first quartile for abv is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Q1_mos</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The second quartile for abv is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Q2_mos</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The third quartile for abv is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Q3_mos</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                    Processor  MOS transistor count  Date of Introduction  \
+0      MP944 (20-bit, 6-chip)                   NaN                  1970   
+1  Intel 4004 (4-bit, 16-pin)                2250.0                  1971   
+2  Intel 8008 (8-bit, 18-pin)                3500.0                  1972   
+3  NEC μCOM-4 (4-bit, 42-pin)                2500.0                  1973   
+4  Intel 4040 (4-bit, 16-pin)                3000.0                  1974   
+
+             Designer MOSprocess    Area  
+0  Garrett AiResearch          ?       ?  
+1               Intel  10,000 nm  12 mm²  
+2               Intel  10,000 nm  14 mm²  
+3                 NEC   7,500 nm       ?  
+4               Intel  10,000 nm  12 mm²  
+                                             Processor  MOS transistor count  \
+152  Qualcomm Snapdragon 845 (octa-core 64/32-bit A...          5.300000e+09   
+153  Qualcomm Snapdragon 850  (octa-core 64/32-bit ...          5.300000e+09   
+154  Apple A11 Bionic (hexa-core 64/32-bit ARM64 &quot;m...          4.300000e+09   
+155          Zeppelin SoC Ryzen (64-bit, SIMD, caches)          4.800000e+09   
+156          Ryzen 5 1600 Ryzen (64-bit, SIMD, caches)          4.800000e+09   
+157        Ryzen 5 1600 X Ryzen (64-bit, SIMD, caches)          4.800000e+09   
+158                     IBM z14 (64-bit, SIMD, caches)          6.100000e+09   
+159                IBM z14 Storage Controller (64-bit)          9.700000e+09   
+160  HiSilicon Kirin 970 (octa-core 64/32-bit ARM64...          5.500000e+09   
+161  Xbox One X (Project Scorpio) main SoC (64-bit,...          7.000000e+09   
+162                      POWER9 (64-bit, SIMD, caches)          8.000000e+09   
+163  Freedom U500 Base Platform Chip (E51, 4×U54) R...          2.500000e+08   
+164         SPARC64 XII (12-core 64-bit, SIMD, caches)          5.450000e+09   
+165  Apple A10X Fusion (hexa-core 64/32-bit ARM64 &quot;...          4.300000e+09   
+166             Centriq 2400 (64/32-bit, SIMD, caches)          1.800000e+10   
+167            32-core AMD Epyc (64-bit, SIMD, caches)          1.920000e+10   
+
+     Date of Introduction       Designer MOSprocess       Area  
+152                  2017       Qualcomm      10 nm     94 mm²  
+153                  2017       Qualcomm      10 nm     94 mm²  
+154                  2017          Apple      10 nm  89.23 mm²  
+155                  2017            AMD      14 nm    192 mm²  
+156                  2017            AMD      14 nm    213 mm²  
+157                  2017            AMD      14 nm    213 mm²  
+158                  2017            IBM      14 nm    696 mm²  
+159                  2017            IBM      14 nm    696 mm²  
+160                  2017         Huawei      10 nm  96.72 mm2  
+161                  2017  Microsoft/AMD      16 nm    360 mm²  
+162                  2017            IBM      14 nm    695 mm²  
+163                  2017         SiFive      28 nm    ~30 mm²  
+164                  2017        Fujitsu      20 nm    795 mm2  
+165                  2017          Apple      10 nm  96.40 mm2  
+166                  2017       Qualcomm      10 nm    398 mm2  
+167                  2017            AMD      14 nm    768 mm2  
+In 2017, the average MOS transistor count was 7050000000.0
+The first quartile for abv is 4800000000.0
+The second quartile for abv is 5375000000.0
+The third quartile for abv is 7250000000.0
+</pre></div>
+</div>
+<img alt="../_images/5f402a3a8bc9206cb273a8c2ec16be72b6a2a3c9961b242e5517205574044bd4.png" src="../_images/5f402a3a8bc9206cb273a8c2ec16be72b6a2a3c9961b242e5517205574044bd4.png" />
+</div>
+</div>
 </section>
 <section id="problems-part-3">
 <h2>Problems <a class="reference internal" href="03_Linear_Regression_with_Real_Data.html"><span class="doc std std-doc">Part 3</span></a><a class="headerlink" href="#problems-part-3" title="Permalink to this heading">#</a></h2>
@@ -593,6 +764,177 @@ land temperature anomoly? Split the data and perform two linear fits.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">energy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/primary-energy-consumption-by-region.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+
+<span class="n">us_data</span> <span class="o">=</span> <span class="n">energy</span><span class="p">[</span><span class="n">energy</span><span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;United States&#39;</span><span class="p">]</span>
+<span class="n">euro_data</span> <span class="o">=</span> <span class="n">energy</span><span class="p">[</span><span class="n">energy</span><span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Europe&#39;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">euro_data</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">euro_data</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Europe&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">us_data</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">],</span> <span class="n">us_data</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;United States&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Total Energy Consumption of the United States and Europe (1965-2018)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c74cfa297e488edd095683541ebe4bbfbefcb9a9ae7dba828f9605da3da52df8.png" src="../_images/c74cfa297e488edd095683541ebe4bbfbefcb9a9ae7dba828f9605da3da52df8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+
+<span class="k">def</span> <span class="nf">regression_function</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">]</span>
+    <span class="n">mean_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">mean_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+    <span class="n">y_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yi</span><span class="p">)</span>
+
+    <span class="n">a_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yi</span><span class="o">*</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xi</span><span class="o">*</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">))</span>
+    <span class="n">a_0</span> <span class="o">=</span> <span class="n">y_mean</span> <span class="o">-</span> <span class="n">a_1</span><span class="o">*</span><span class="n">x_mean</span>
+
+    <span class="n">a_1n</span><span class="p">,</span> <span class="n">a_0n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">f_linear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">((</span><span class="n">a_1n</span><span class="p">,</span> <span class="n">a_0n</span><span class="p">))</span> 
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#2929a3&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured anomoly&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">f_linear</span><span class="p">(</span><span class="n">xi</span><span class="p">),</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Linear regression&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Consumption&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">();</span>
+    
+    <span class="k">return</span> <span class="n">f_linear</span>
+
+<span class="n">us_function</span> <span class="o">=</span> <span class="n">regression_function</span><span class="p">(</span><span class="n">us_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;US Function: &quot;</span><span class="p">,</span><span class="n">us_function</span><span class="p">)</span>
+<span class="n">euro_function</span> <span class="o">=</span> <span class="n">regression_function</span><span class="p">(</span><span class="n">euro_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Euro Function: &quot;</span><span class="p">,</span><span class="n">euro_function</span><span class="p">)</span>
+<span class="sd">&#39;&#39;&#39;The first plot represents US data, the second European. This is more important for part c.&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>US Function:   
+200.4 x - 3.765e+05
+Euro Function:   
+199.6 x - 3.76e+05
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The first plot represents US data, the second European. This is more important for part c.&#39;
+</pre></div>
+</div>
+<img alt="../_images/01595ec88be10e8ec3fde3a5b0e77f5a6f5acf3c8c737e31174b38539a15dffd.png" src="../_images/01595ec88be10e8ec3fde3a5b0e77f5a6f5acf3c8c737e31174b38539a15dffd.png" />
+<img alt="../_images/457b7e747e3998e1e7890342276c0c5ba8c21e1c8187e81933609a1f762962e0.png" src="../_images/457b7e747e3998e1e7890342276c0c5ba8c21e1c8187e81933609a1f762962e0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+
+<span class="k">def</span> <span class="nf">regression_function</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">]</span>
+    <span class="n">mean_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">mean_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">yi</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+    <span class="n">y_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yi</span><span class="p">)</span>
+
+    <span class="n">a_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yi</span><span class="o">*</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">xi</span><span class="o">*</span><span class="p">(</span><span class="n">xi</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">))</span>
+    <span class="n">a_0</span> <span class="o">=</span> <span class="n">y_mean</span> <span class="o">-</span> <span class="n">a_1</span><span class="o">*</span><span class="n">x_mean</span>
+
+    <span class="n">a_1n</span><span class="p">,</span> <span class="n">a_0n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span>
+
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="o">=</span> <span class="n">regression_function</span><span class="p">(</span><span class="n">euro_data</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xi</span><span class="o">==</span><span class="mi">1985</span><span class="p">)</span>
+
+<span class="n">year</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">energy_ano</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="n">year_1</span> <span class="p">,</span> <span class="n">energy_ano_1</span> <span class="o">=</span> <span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">],</span> <span class="n">energy_ano</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
+<span class="n">year_2</span> <span class="p">,</span> <span class="n">energy_ano_2</span> <span class="o">=</span> <span class="n">year</span><span class="p">[</span><span class="mi">20</span><span class="p">:],</span> <span class="n">energy_ano</span><span class="p">[</span><span class="mi">20</span><span class="p">:]</span>
+
+<span class="n">m1</span><span class="p">,</span> <span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">year_1</span><span class="p">,</span> <span class="n">energy_ano_1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">m2</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">year_2</span><span class="p">,</span> <span class="n">energy_ano_2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">f_linear_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">((</span><span class="n">m1</span><span class="p">,</span> <span class="n">b1</span><span class="p">))</span>
+<span class="n">f_linear_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">((</span><span class="n">m2</span><span class="p">,</span> <span class="n">b2</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">energy_ano</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#2929a3&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year_1</span><span class="p">,</span> <span class="n">f_linear_1</span><span class="p">(</span><span class="n">year_1</span><span class="p">),</span> <span class="s1">&#39;g--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;until 1985&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">year_2</span><span class="p">,</span> <span class="n">f_linear_2</span><span class="p">(</span><span class="n">year_2</span><span class="p">),</span> <span class="s1">&#39;r--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;past 1985&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Consumption&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">();</span>
+
+<span class="sd">&#39;&#39;&#39;It seems, as evident from the graphs above (part b), that the European data has a strange change in behavior around 1985. Therefore, this is what will be used for the data split. The split data graph can be seen above.&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;It seems, as evident from the graphs above (part b), that the European data has a strange change in behavior around 1985. Therefore, this is what will be used for the data split. The split data graph can be seen above.&#39;
+</pre></div>
+</div>
+<img alt="../_images/f87d460803bf3f2ff0ba8a573284f5c1ab53d4706d34635ecac1f6a62c234653.png" src="../_images/f87d460803bf3f2ff0ba8a573284f5c1ab53d4706d34635ecac1f6a62c234653.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part d</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x=2025&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;US function: &quot;</span><span class="p">,</span><span class="n">us_function</span><span class="p">)</span>
+<span class="n">us_energy_usage</span> <span class="o">=</span> <span class="p">(</span><span class="mf">200.4</span><span class="o">*</span><span class="mi">2025</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">3.765</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">^</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted US energy usage in 2025: &quot;</span><span class="p">,</span><span class="n">us_energy_usage</span><span class="p">,</span><span class="s2">&quot;TW-h&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;European function: &quot;</span><span class="p">,</span><span class="n">euro_function</span><span class="p">)</span>
+<span class="n">euro_energy_usage</span> <span class="o">=</span> <span class="p">(</span><span class="mf">199.6</span><span class="o">*</span><span class="mi">2025</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">3.76</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">^</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted Europe energy usage in 2025: &quot;</span><span class="p">,</span><span class="n">euro_energy_usage</span><span class="p">,</span><span class="s2">&quot;TW-h&quot;</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;The year 2025 equates to x=2025 for our functions found in part b. Using these functions, we can predict values, as can be seen above. &#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=2025
+ 
+US function:   
+200.4 x - 3.765e+05
+Predicted US energy usage in 2025:  405753.525 TW-h
+ 
+European function:   
+199.6 x - 3.76e+05
+Predicted Europe energy usage in 2025:  404133.6 TW-h
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The year 2025 equates to x=2025 for our functions found in part b. Using these functions, we can predict values, as can be seen above. &#39;
 </pre></div>
 </div>
 </div>

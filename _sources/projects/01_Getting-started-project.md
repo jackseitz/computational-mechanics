@@ -150,4 +150,7 @@ time_of_death = -np.log((T_body_normal - T_ambient) / (T_initial - T_ambient)) /
 
 print("Final Temp: ", final_temperature, "Degrees")
 print("Time of Death: ", time_of_death)
+
+'''The time of death being a negative number symbolizes the body died approximatle 1.5 hours before being found... 
+Thus, the time of death was around 9:30 am.'''
 ```
