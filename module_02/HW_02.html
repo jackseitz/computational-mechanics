@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -79,7 +79,7 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
 
@@ -122,12 +122,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -496,7 +504,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <blockquote>
 <div><p><strong>Content modified under Creative Commons Attribution license CC-BY
@@ -918,7 +926,7 @@ Euro Function:
 <span class="n">euro_energy_usage</span> <span class="o">=</span> <span class="p">(</span><span class="mf">199.6</span><span class="o">*</span><span class="mi">2025</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mf">3.76</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">^</span><span class="mi">5</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted Europe energy usage in 2025: &quot;</span><span class="p">,</span><span class="n">euro_energy_usage</span><span class="p">,</span><span class="s2">&quot;TW-h&quot;</span><span class="p">)</span>
 
-<span class="sd">&#39;&#39;&#39;The year 2025 equates to x=2025 for our functions found in part b. Using these functions, we can predict values, as can be seen above. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;The year 2025 equates to x=2025 for our functions found in part b. Using these functions, we can predict the y values (energy consumption), as seen above. &#39;&#39;&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -934,7 +942,7 @@ European function:
 Predicted Europe energy usage in 2025:  404133.6 TW-h
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The year 2025 equates to x=2025 for our functions found in part b. Using these functions, we can predict values, as can be seen above. &#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The year 2025 equates to x=2025 for our functions found in part b. Using these functions, we can predict the y values (energy consumption), as seen above. &#39;
 </pre></div>
 </div>
 </div>
@@ -958,10 +966,53 @@ Color the data according to the “Designer”.</p>
 <p>b. What are the values of constants <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> for our Moore’s law fit? How does this compare to Gordon Moore’s prediction that MOS transistor count doubles every two years?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/transistor_data.csv&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/transistor_data.csv&#39;</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
 <span class="n">xi</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Date of Introduction&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">TC</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">yi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;MOS transistor count&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span>
+<span class="n">y_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yi</span><span class="p">)</span>
+
+<span class="n">a_1n</span><span class="p">,</span> <span class="n">a_0n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">f_linear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">((</span><span class="n">a_1n</span><span class="p">,</span> <span class="n">a_0n</span><span class="p">))</span> 
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">yi</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Actual Data&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">f_linear</span><span class="p">(</span><span class="n">xi</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fitted Line&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year of Introduction&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;MOS Transistor Count&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;MOS Transistor Count Over Time on a Semilog Scale&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c8ff779ba92d8eb9f0d83bbd962a445f06c12a02bd9892073f96ccf3085e6faf.png" src="../_images/c8ff779ba92d8eb9f0d83bbd962a445f06c12a02bd9892073f96ccf3085e6faf.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The function for the linear regression is: &quot;</span><span class="p">,</span><span class="n">f_linear</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;Therefore, the value for A is 0.3359 and the value for B is -654.7. With the knowledge that the slope of Moores prediction function is approx. log(2)/2, or 0.35, we can compare this to the slope found for our function, which is approx. 0.34. This shows that our function is comparable with Moores, and predicts a similar behavior for the MOS transistor count.&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The function for the linear regression is:   
+0.3359 x - 654.7
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Therefore, the value for A is 0.3359 and the value for B is -654.7. With the knowledge that the slope of Moores prediction function is approx. log(2)/2, or 0.35, we can compare this to the slope found for our function, which is approx. 0.34. This shows that our function is comparable with Moores, and predicts a similar behavior for the MOS transistor count.&#39;
 </pre></div>
 </div>
 </div>
@@ -998,6 +1049,68 @@ maximum <span class="math notranslate nohighlight">\(x_{end~max}&gt;0\)</span>. 
 particles that move further than 0.5 m.</p>
 <p><em>Bonus: Can you do the work without any <code class="docutils literal notranslate"><span class="pre">for</span></code>-loops? Change the size of
 <code class="docutils literal notranslate"><span class="pre">dx</span></code> and <code class="docutils literal notranslate"><span class="pre">dy</span></code> to account for multiple particles.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#1.</span>
+
+<span class="c1"># Part a</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># For reproducibility</span>
+<span class="n">x_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># x is the distance from line 0, between 0 and 1</span>
+<span class="n">theta_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># theta is the orientation of the needle, between 0 and 2*pi</span>
+
+<span class="c1"># Part b</span>
+<span class="n">x_end_values</span> <span class="o">=</span> <span class="n">x_values</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta_values</span><span class="p">)</span>
+
+<span class="c1"># Part c</span>
+<span class="n">crosses_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">x_values</span> <span class="o">&lt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x_end_values</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># Needles crossing the line x=0.5</span>
+<span class="n">number_of_crosses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">crosses_line</span><span class="p">)</span>
+
+<span class="c1"># Calculating the estimate of pi using the formula given in the Buffon&#39;s needle problem</span>
+<span class="n">pi_estimate</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_values</span><span class="p">))</span> <span class="o">/</span> <span class="n">number_of_crosses</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PI estimate: &quot;</span><span class="p">,</span><span class="n">pi_estimate</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No. of crosses: &quot;</span><span class="p">,</span><span class="n">number_of_crosses</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PI estimate:  8.695652173913043
+No. of crosses:  23
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#2.</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">num_particles</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">num_steps</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_particles</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># Each row represents a particle&#39;s (x,y) position</span>
+
+<span class="c1">#Random walk</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_particles</span><span class="p">)</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num_particles</span><span class="p">)</span>
+    <span class="c1"># Update the positions of each particle</span>
+    <span class="n">positions</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">))</span>
+
+<span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">positions</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">num_particles_moved</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">distances</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No. of particles moved further than 0.5m: &quot;</span><span class="p">,</span><span class="n">num_particles_moved</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No. of particles moved further than 0.5m:  82
+</pre></div>
+</div>
+</div>
+</div>
 <p><strong>3.</strong> 100 steel rods are going to be used to support a 1000 kg structure. The
 rods will buckle when the load in any rod exceeds the <a class="reference external" href="https://en.wikipedia.org/wiki/Euler%27s_critical_load">critical buckling
 load</a></p>
@@ -1016,24 +1129,45 @@ samples with normally distributed dimensions r and L.</p>
 reach the critical buckling load?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">montecarlo_buckle</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">r_mean</span><span class="p">,</span><span class="n">r_std</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;Generate N rods of length L with radii of r=r_mean+/-r_std</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Given constants</span>
+<span class="n">E</span> <span class="o">=</span> <span class="mf">200e9</span> 
+<span class="n">r_mean</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">r_std</span> <span class="o">=</span> <span class="mf">0.001</span>  
+<span class="n">load</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mf">9.81</span> 
+
+<span class="k">def</span> <span class="nf">montecarlo_buckle</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">r_mean</span><span class="p">,</span> <span class="n">r_std</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Generate N rods of length L with radii of r_mean±r_std</span>
 <span class="sd">    then calculate the mean and std of the buckling loads in for the</span>
-<span class="sd">    rod population holding a 1000-kg structure</span>
-<span class="sd">    Arguments</span>
-<span class="sd">    ---------</span>
-<span class="sd">    E: Young&#39;s modulus [note: keep units consistent]</span>
-<span class="sd">    r_mean: mean radius of the N rods holding the structure</span>
-<span class="sd">    r_std: standard deviation of the N rods holding the structure</span>
-<span class="sd">    L: length of the rods (or the height of the structure)</span>
-<span class="sd">    N: number of rods holding the structure, default is N=100 rods</span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    mean_buckle_load: mean buckling load of N rods under 1000*9.81/N-Newton load</span>
-<span class="sd">    std_buckle_load: std dev buckling load of N rods under 1000*9.81/N-Newton load</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    rod population holding a 1000-kg structure&#39;&#39;&#39;</span>
+    <span class="n">radii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">r_mean</span><span class="p">,</span> <span class="n">r_std</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">P_cr</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">radii</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">mean_buckle_load</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_cr</span><span class="p">)</span>
+    <span class="n">std_buckle_load</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">P_cr</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">mean_buckle_load</span><span class="p">,</span> <span class="n">std_buckle_load</span>
+
+<span class="c1"># Part a</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">mean_buckle_load</span><span class="p">,</span> <span class="n">std_buckle_load</span> <span class="o">=</span> <span class="n">montecarlo_buckle</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">r_mean</span><span class="p">,</span> <span class="n">r_std</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean buckling load for L=5m: &quot;</span><span class="p">,</span><span class="n">mean_buckle_load</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Standard deviation of buckling load for L=5m: &quot;</span><span class="p">,</span><span class="n">std_buckle_load</span><span class="p">)</span>
+
+<span class="c1"># Part b:</span>
+<span class="c1"># We will use a z-score for 2.5% of a standard normal distribution, which is approximately 1.96</span>
+<span class="n">z_score</span> <span class="o">=</span> <span class="mf">1.96</span>
+
+<span class="n">load_threshold</span> <span class="o">=</span> <span class="n">mean_buckle_load</span> <span class="o">+</span> <span class="n">z_score</span> <span class="o">*</span> <span class="n">std_buckle_load</span>
+
+<span class="n">L_critical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">r_mean</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="n">load_threshold</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Critical length (L) for 2.5</span><span class="si">% f</span><span class="s2">ailure rate:&quot;</span><span class="p">,</span> <span class="n">L_critical</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean buckling load for L=5m:  52.426491961267054
+Standard deviation of buckling load for L=5m:  20.88178647977262
+Critical length (L) for 2.5% failure rate: 3.63526912539309
 </pre></div>
 </div>
 </div>
@@ -1098,6 +1232,7 @@ reach the critical buckling load?</p>
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
@@ -1156,8 +1291,8 @@ By <a href = https://cooperrc.github.io> Ryan C. Cooper</a>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>
