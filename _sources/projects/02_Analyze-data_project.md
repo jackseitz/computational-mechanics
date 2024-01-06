@@ -5,9 +5,9 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.10.3
+    jupytext_version: 1.11.4
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -53,7 +53,7 @@ data['date'] = pd.to_datetime(data['date'])
 data
 ```
 
-I only want the `symbol == GOOGL` data, so I use a Pandas call. I also want to remove the big drop in price after Mar, 2014, so I specify the date < 2014-03-01. 
+I only want the `symbol == GOOGL` data, so I use a Pandas call. I also want to remove the big drop in price after Mar, 2014, so I specify the date < 2014-03-01.
 
 ```{code-cell} ipython3
 google_data = data[data['symbol'] == 'GOOGL']
@@ -70,7 +70,7 @@ plt.ylabel('opening price (\$)');
 
 ## 2. Data analysis
 
-The GOOGL stock nearly doubled in price from 2010 through 2014. Day-to-day, the price fluctuates randomly. Here, I look at the fluctuations in price using [`np.diff`](https://numpy.org/doc/1.20/reference/generated/numpy.diff.html). 
+The GOOGL stock nearly doubled in price from 2010 through 2014. Day-to-day, the price fluctuates randomly. Here, I look at the fluctuations in price using [`np.diff`](https://numpy.org/doc/1.20/reference/generated/numpy.diff.html).
 
 ```{code-cell} ipython3
 dprice = np.diff(google_data_pre_2014['open'])
@@ -100,7 +100,7 @@ plt.title('GOOGL changes in price over 4 years\n'+
          'avg: \${:.2f} stdev: \${:.2f}'.format(mean_dprice, std_dprice));
 ```
 
-From this statistical result, it looks like the price changes followed a normal distribution with an average change of $\$0.57$ and a standard deviation of $\$9.84$. 
+From this statistical result, it looks like the price changes followed a normal distribution with an average change of $\$0.57$ and a standard deviation of $\$9.84$.
 
 +++
 
@@ -114,7 +114,7 @@ day 1|$\Delta \$ model~1$|$\Delta \$ model~2$|$\Delta \$ model~3$|...|$\Delta \$
 day 2|$\Delta \$ model~1$|$\Delta \$ model~2$|$\Delta \$ model~3$|...|$\Delta \$ model~N$|
 ...|...|...|...|...|...|
 
-Each column is one random walk model. Each row is one simulated day. If I want to look at _one_ model predition, I would plot one column. If I want to look at the _average_ result, I take the average of each row. To start, I'll create 100 random walk models. I use the [`normal`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.normal.html#numpy.random.Generator.normal) distribution to match the statistical distribution I found in part 2. 
+Each column is one random walk model. Each row is one simulated day. If I want to look at _one_ model predition, I would plot one column. If I want to look at the _average_ result, I take the average of each row. To start, I'll create 100 random walk models. I use the [`normal`](https://numpy.org/doc/stable/reference/random/generated/numpy.random.Generator.normal.html#numpy.random.Generator.normal) distribution to match the statistical distribution I found in part 2.
 
 ```{code-cell} ipython3
 rng = default_rng(42)
@@ -145,7 +145,7 @@ array([[1, 2, 3],
        [5, 7, 9]])
 ```
 
-Then, I plot all of the random walk models to compare to the NYSE data. The models are given transparency using the `alpha = 0.3` command (_`alpha = 0` is invisible, `alpha = 1` is opaque_). 
+Then, I plot all of the random walk models to compare to the NYSE data. The models are given transparency using the `alpha = 0.3` command (_`alpha = 0` is invisible, `alpha = 1` is opaque_).
 
 ```{code-cell} ipython3
 price_model = np.cumsum(dprice_model, axis = 0) + google_data_pre_2014['open'].values[0]
@@ -157,7 +157,7 @@ plt.xlabel('date')
 plt.ylabel('opening price (\$)');
 ```
 
-As you would expect, there are a wide variety of predictions for the price of GOOGL stocks using random numbers. Next, I try to get some insight into the average changes in the random walk model. I use the `np.mean` and `np.std` across the columns of the `price_model` prediction data, using `axis = 1` now. 
+As you would expect, there are a wide variety of predictions for the price of GOOGL stocks using random numbers. Next, I try to get some insight into the average changes in the random walk model. I use the `np.mean` and `np.std` across the columns of the `price_model` prediction data, using `axis = 1` now.
 
 ```{code-cell} ipython3
 price_model_avg = np.mean(price_model, axis = 1)
@@ -251,5 +251,146 @@ Here are the list of stocks in this dataset:
        'YUM', 'ZBH', 'ZION', 'ZTS'
 
 ```{code-cell} ipython3
+#Data exploration and stock selection
 
+data = pd.read_csv('../data/nyse-data.csv')
+data['date'] = pd.to_datetime(data['date'])
+
+amazon_data = data[data['symbol'] == 'AMZN']
+amazon_data = amazon_data.fillna(0) #filling in any empty values with 0, so that we keep all data points and they won't cause any issues in further calculations. 
+
+plt.plot(amazon_data['date'], amazon_data['open'])
+plt.xlabel('date')
+plt.ylabel('opening price (\$)');
+
+#Looks like price rises much more rapidly starting around 2015, so I'll use data up until 2015
+amazon_data_pre_2015 = amazon_data[amazon_data['date'] < pd.to_datetime('2015-01-01')]
+amazon_clean = amazon_data_pre_2015[amazon_data_pre_2015['date'] > pd.to_datetime('2010-01-01')]
+plt.plot(amazon_clean['date'], amazon_clean['open'])
+plt.xlabel('date')
+plt.ylabel('opening price (\$)');
+
+'''Red represents the data being used, while blue is the unused data, showing the steep increase in price.'''
+```
+
+```{code-cell} ipython3
+from scipy import stats
+#Data analysis
+
+#time series plot
+def time_series(dates, dprice):
+    plt.plot(dates, dprice)
+    plt.xlabel('date')
+    plt.ylabel('change in opening price (\$/day)')
+    plt.title('Time Series Plot of Daily Price Changes')
+    plt.show()
+    
+#histogram plot
+def histogram(x, price_pdf, mean_dprice, std_dprice):
+    plt.hist(dprice, bins=50, density=True)
+    plt.plot(x, price_pdf)
+    plt.title('AMZN changes in price over 4 years\n'+
+         'avg: \${:.2f} stdev: \${:.2f}'.format(mean_dprice, std_dprice))
+    plt.show()
+
+#box plot
+def box_plot(dprice):
+    plt.figure(figsize=(5,8))
+    plt.boxplot(dprice, vert=True, patch_artist=True)
+    plt.ylabel('Daily Change in Price ($)')
+    plt.title('Box Plot of Daily Price Changes')
+    plt.grid(True)
+    plt.show()
+    
+#moving average plot
+def moving_avg_plot(dprice):
+    rolling_window = 21  # for a 21-day moving average. 21 represents the tradeable days in a month. 
+    rolling_mean = np.convolve(dprice, np.ones(rolling_window)/rolling_window, mode='valid')
+    plt.figure(figsize=(10,5))
+    plt.plot(dates[rolling_window-1:], rolling_mean)
+    plt.xlabel('Date')
+    plt.ylabel('21-Day Moving Average of Daily Change in Price ($)')
+    plt.title('Moving Average of Daily Price Changes')
+    plt.grid(True)
+    plt.show()
+    
+#data analysis    
+dates = amazon_clean['date'][1:]
+dprice = np.diff(amazon_clean['open'])
+
+#mean, std dev
+mean_dprice = np.mean(dprice)
+std_dprice = np.std(dprice)
+print(mean_dprice, std_dprice) #to find exact mean/std dev for later model development
+x = np.linspace(-40, 40)
+price_pdf = stats.norm.pdf(x, loc = mean_dprice, scale = std_dprice)
+
+#calling creation of graphs
+time_series = time_series(dates, dprice)
+histogram = histogram(x, price_pdf, mean_dprice, std_dprice)
+box_plot = box_plot(dprice)
+moving_avg_plot = moving_avg_plot(dprice)
+
+#printing graphs
+time_series
+histogram
+box_plot
+moving_avg_plot
+```
+
+```{code-cell} ipython3
+#Creating random variables
+
+rng = default_rng(42)
+N_models = 1000 #generate 1000 models/simulations
+
+dprice_model = rng.normal(size = (len(amazon_clean), N_models), loc = 0.1395, scale = 4.756)
+
+plt.hist(dprice, 50, density=True, label = 'NYSE data')
+plt.plot(x, price_pdf)
+plt.hist(dprice_model[:, 0], 50, density = True, 
+         histtype = 'step', 
+         linewidth = 3, label = 'model prediction 1')
+plt.title('AMZN changes in price over 4 years\n'+
+         'avg: \${:.2f} stdev: \${:.2f}'.format(mean_dprice, std_dprice))
+plt.legend();
+```
+
+```{code-cell} ipython3
+#Generate random walk predictions
+
+price_model = np.cumsum(dprice_model, axis = 0) + amazon_clean['open'].values[0]
+
+plt.plot(amazon_clean['date'], price_model, alpha = 0.3);
+plt.plot(amazon_clean['date'], amazon_clean['open'], c = 'k', label = 'NYSE data')
+plt.xlabel('date')
+plt.ylabel('opening price (\$)');
+```
+
+```{code-cell} ipython3
+#Evaluating random walks from generated model
+
+price_model_avg = np.mean(price_model, axis = 1)
+price_model_std = np.std(price_model, axis = 1)
+
+plt.plot(amazon_clean['date'], price_model, alpha = 0.3);
+
+plt.plot(amazon_clean['date'], amazon_clean['open'], c = 'k', label = 'NYSE data')
+plt.xlabel('date')
+plt.ylabel('opening price (\$)');
+
+skip = 100
+plt.errorbar(amazon_clean['date'][::skip], price_model_avg[::skip],
+             yerr = price_model_std[::skip], 
+             fmt = 'o',
+             c = 'r', 
+             label = 'model result', 
+            zorder = 3);
+plt.legend();
+
+'''The model performs farily well, with the average price movement sticking somewhat closely to the NYSE data. '''
+```
+
+```{code-cell} ipython3
+'''One of the main caveats of this model is its reliance on shear statistical measures to predict future stock movement. While this can be a good indicator, it should really be used in combination with more macroeconomic information or some technical indicators, such as MACD or RSI. Statistical measures and models like this are great, as long as the stocks price follows a normal, linear path, which, as made evident by our data selection, is not normally the case. If we continue to predict prices into 2015 and on, we would have seen the model would not have been able to keep up with the rapid increase in price for AMZN, and it therefore would have severely under-predicted the stock price for the foreseeable future. Eventually, the statistical measures likely would catch up to more closely mimic the steep increase in price, but it would take some time. Hence, the caveat with the model.'''
 ```
