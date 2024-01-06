@@ -1,0 +1,100 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+g = 9.81 
+rho = 1.225 
+C_d = 0.47  
+dt = 0.001  
+t_max = 5  
+
+#Given diameters and masses for the tennis and lacrosse balls
+d_tennis = (6.54 + 6.86) / 2 / 100  # converting cm to m
+m_tennis = 59.4 / 1000  # converting g to kg
+A_tennis = np.pi * (d_tennis / 2)**2  # cross-sectional area
+
+d_lacrosse = (6.27 + 6.47) / 2 / 100  # converting cm to m
+m_lacrosse = (140 + 147) / 2 / 1000  # converting g to kg
+A_lacrosse = np.pi * (d_lacrosse / 2)**2  # cross-sectional area
+
+#Function to calculate the drag force
+def drag_force(v, A):
+    return 0.5 * rho * C_d * A * v**2
+
+#Euler's method to simulate the fall with drag
+def euler_method(A, m):
+    t = 0
+    y = 1.6  #initial height
+    v = 0  #initial velocity
+    times = [t]
+    heights = [y]
+
+    while t <= t_max and y > 0:
+        #Calculate the forces
+        gravity = m * g
+        drag = drag_force(v, A)
+        #Update the velocity and position using Euler's method
+        v = v - (gravity - drag) / m * dt
+        y = y + v * dt
+        #Store the values
+        times.append(t)
+        heights.append(y)
+        #Increment time
+        t += dt
+    
+    return times, heights
+
+#Simulate the fall for both balls
+times_tennis, heights_tennis = euler_method(A_tennis, m_tennis)
+times_lacrosse, heights_lacrosse = euler_method(A_lacrosse, m_lacrosse)
+
+#Convert to pandas DataFrame for easier handling
+df_tennis = pd.DataFrame({'Time': times_tennis, 'Height': heights_tennis})
+df_lacrosse = pd.DataFrame({'Time': times_lacrosse, 'Height': heights_lacrosse})
+
+#Plot the resulting height vs time for both balls
+plt.figure(figsize=(10, 6))
+plt.plot(df_tennis['Time'], df_tennis['Height'], label='Tennis Ball')
+plt.plot(df_lacrosse['Time'], df_lacrosse['Height'], label='Lacrosse Ball')
+plt.xlabel('Time (s)')
+plt.ylabel('Height (m)')
+plt.title('Height vs Time for Tennis and Lacrosse Balls (Euler Method)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+#Find the time when each ball reaches the ground using the last entry before the height becomes negative or zero
+time_to_ground_tennis = df_tennis.iloc[(df_tennis['Height'] > 0).cumsum().argmax() - 1]['Time']
+time_to_ground_lacrosse = df_lacrosse.iloc[(df_lacrosse['Height'] > 0).cumsum().argmax() - 1]['Time']
+
+print("Time for tennis ball to hit ground: ",time_to_ground_tennis)
+print("Time for lax ball to hit ground: ",time_to_ground_lacrosse)
+
+'''There is a small difference between when the tennis and lacrosse balls hit the ground. '''
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[9], line 48[0m
+[1;32m     45[0m times_lacrosse, heights_lacrosse [38;5;241m=[39m euler_method(A_lacrosse, m_lacrosse)
+[1;32m     47[0m [38;5;66;03m#Convert to pandas DataFrame for easier handling[39;00m
+[0;32m---> 48[0m df_tennis [38;5;241m=[39m [43mpd[49m[38;5;241m.[39mDataFrame({[38;5;124m'[39m[38;5;124mTime[39m[38;5;124m'[39m: times_tennis, [38;5;124m'[39m[38;5;124mHeight[39m[38;5;124m'[39m: heights_tennis})
+[1;32m     49[0m df_lacrosse [38;5;241m=[39m pd[38;5;241m.[39mDataFrame({[38;5;124m'[39m[38;5;124mTime[39m[38;5;124m'[39m: times_lacrosse, [38;5;124m'[39m[38;5;124mHeight[39m[38;5;124m'[39m: heights_lacrosse})
+[1;32m     51[0m [38;5;66;03m#Plot the resulting height vs time for both balls[39;00m
+
+[0;31mNameError[0m: name 'pd' is not defined
+
