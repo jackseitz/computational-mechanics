@@ -15,86 +15,91 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-g = 9.81 
-rho = 1.225 
-C_d = 0.47  
-dt = 0.001  
-t_max = 5  
+#Define the smd function from the second picture
+def smd(state, omega=2.0, zeta=0.2):
+    x, v = state  # Unpack the state vector
+    derivs = np.array([v, -zeta*omega*v - omega**2*x])  # Compute derivatives
+    return derivs
 
-#Given diameters and masses for the tennis and lacrosse balls
-d_tennis = (6.54 + 6.86) / 2 / 100  # converting cm to m
-m_tennis = 59.4 / 1000  # converting g to kg
-A_tennis = np.pi * (d_tennis / 2)**2  # cross-sectional area
+#Initial conditions
+x0 = 2.0  # initial position
+v0 = 0.0  # initial velocity
+state = np.array([x0, v0])
 
-d_lacrosse = (6.27 + 6.47) / 2 / 100  # converting cm to m
-m_lacrosse = (140 + 147) / 2 / 1000  # converting g to kg
-A_lacrosse = np.pi * (d_lacrosse / 2)**2  # cross-sectional area
+#Simulation parameters
+t_end = 3 * (2 * np.pi / omega)  # three periods of oscillation
+dt = 0.01  # time step
 
-#Function to calculate the drag force
-def drag_force(v, A):
-    return 0.5 * rho * C_d * A * v**2
-
-#Euler's method to simulate the fall with drag
-def euler_method(A, m):
+#Euler method integration
+def euler_integration(state, t_end, dt):
     t = 0
-    y = 1.6  #initial height
-    v = 0  #initial velocity
-    times = [t]
-    heights = [y]
-
-    while t <= t_max and y > 0:
-        #Calculate the forces
-        gravity = m * g
-        drag = drag_force(v, A)
-        #Update the velocity and position using Euler's method
-        v = v - (gravity - drag) / m * dt
-        y = y + v * dt
-        #Store the values
-        times.append(t)
-        heights.append(y)
-        #Increment time
+    states = [state]
+    while t < t_end:
+        state = state + dt * smd(state)
+        states.append(state)
         t += dt
-    
-    return times, heights
+    return np.array(states)
 
-#Simulate the fall for both balls
-times_tennis, heights_tennis = euler_method(A_tennis, m_tennis)
-times_lacrosse, heights_lacrosse = euler_method(A_lacrosse, m_lacrosse)
+#Second order Runge-Kutta (Modified Euler) integration
+def rk2_integration(state, t_end, dt):
+    t = 0
+    states = [state]
+    while t < t_end:
+        k1 = smd(state)
+        k2 = smd(state + dt * k1)
+        state = state + (dt / 2) * (k1 + k2)
+        states.append(state)
+        t += dt
+    return np.array(states)
 
-#Convert to pandas DataFrame for easier handling
-df_tennis = pd.DataFrame({'Time': times_tennis, 'Height': heights_tennis})
-df_lacrosse = pd.DataFrame({'Time': times_lacrosse, 'Height': heights_lacrosse})
+#Heun's method integration
+def heun_integration(state, t_end, dt):
+    t = 0
+    states = [state]
+    while t < t_end:
+        initial_slope = smd(state)
+        end_state = state + dt * initial_slope
+        corrected_slope = smd(end_state)
+        state = state + (dt / 2) * (initial_slope + corrected_slope)
+        states.append(state)
+        t += dt
+    return np.array(states)
 
-#Plot the resulting height vs time for both balls
+#Perform the integrations
+states_euler = euler_integration(state, t_end, dt)
+states_rk2 = rk2_integration(state, t_end, dt)
+states_heun = heun_integration(state, t_end, dt)
+
+#Extract positions for plotting
+positions_euler = states_euler[:, 0]
+positions_rk2 = states_rk2[:, 0]
+positions_heun = states_heun[:, 0]
+times = np.arange(0, t_end+dt, dt)
+
+#Plot the results
 plt.figure(figsize=(10, 6))
-plt.plot(df_tennis['Time'], df_tennis['Height'], label='Tennis Ball')
-plt.plot(df_lacrosse['Time'], df_lacrosse['Height'], label='Lacrosse Ball')
+plt.plot(times, positions_euler, label='Euler Integration')
+plt.plot(times, positions_rk2, label='RK2 Integration')
+plt.plot(times, positions_heun, label='Heun Integration')
 plt.xlabel('Time (s)')
-plt.ylabel('Height (m)')
-plt.title('Height vs Time for Tennis and Lacrosse Balls (Euler Method)')
+plt.ylabel('Position (m)')
+plt.title('Numerical Integration Comparison')
 plt.legend()
 plt.grid(True)
 plt.show()
 
-#Find the time when each ball reaches the ground using the last entry before the height becomes negative or zero
-time_to_ground_tennis = df_tennis.iloc[(df_tennis['Height'] > 0).cumsum().argmax() - 1]['Time']
-time_to_ground_lacrosse = df_lacrosse.iloc[(df_lacrosse['Height'] > 0).cumsum().argmax() - 1]['Time']
-
-print("Time for tennis ball to hit ground: ",time_to_ground_tennis)
-print("Time for lax ball to hit ground: ",time_to_ground_lacrosse)
-
-'''There is a small difference between when the tennis and lacrosse balls hit the ground. '''
+'''For Euler's method, the error is proportional to the time step (first-order). For RK2 and Heun's method, the error is proportional to the square of the time step (second-order)'''
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[9], line 48[0m
-[1;32m     45[0m times_lacrosse, heights_lacrosse [38;5;241m=[39m euler_method(A_lacrosse, m_lacrosse)
-[1;32m     47[0m [38;5;66;03m#Convert to pandas DataFrame for easier handling[39;00m
-[0;32m---> 48[0m df_tennis [38;5;241m=[39m [43mpd[49m[38;5;241m.[39mDataFrame({[38;5;124m'[39m[38;5;124mTime[39m[38;5;124m'[39m: times_tennis, [38;5;124m'[39m[38;5;124mHeight[39m[38;5;124m'[39m: heights_tennis})
-[1;32m     49[0m df_lacrosse [38;5;241m=[39m pd[38;5;241m.[39mDataFrame({[38;5;124m'[39m[38;5;124mTime[39m[38;5;124m'[39m: times_lacrosse, [38;5;124m'[39m[38;5;124mHeight[39m[38;5;124m'[39m: heights_lacrosse})
-[1;32m     51[0m [38;5;66;03m#Plot the resulting height vs time for both balls[39;00m
+Cell [0;32mIn[12], line 13[0m
+[1;32m     10[0m state [38;5;241m=[39m np[38;5;241m.[39marray([x0, v0])
+[1;32m     12[0m [38;5;66;03m#Simulation parameters[39;00m
+[0;32m---> 13[0m t_end [38;5;241m=[39m [38;5;241m3[39m [38;5;241m*[39m ([38;5;241m2[39m [38;5;241m*[39m np[38;5;241m.[39mpi [38;5;241m/[39m [43momega[49m)  [38;5;66;03m# three periods of oscillation[39;00m
+[1;32m     14[0m dt [38;5;241m=[39m [38;5;241m0.01[39m  [38;5;66;03m# time step[39;00m
+[1;32m     16[0m [38;5;66;03m#Euler method integration[39;00m
 
-[0;31mNameError[0m: name 'pd' is not defined
+[0;31mNameError[0m: name 'omega' is not defined
 

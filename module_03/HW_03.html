@@ -515,6 +515,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
 </pre></div>
@@ -862,24 +863,20 @@ Max:  0.01369118622833752
 <span class="n">time_to_ground_tennis</span> <span class="o">=</span> <span class="n">df_tennis</span><span class="o">.</span><span class="n">iloc</span><span class="p">[(</span><span class="n">df_tennis</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span>
 <span class="n">time_to_ground_lacrosse</span> <span class="o">=</span> <span class="n">df_lacrosse</span><span class="o">.</span><span class="n">iloc</span><span class="p">[(</span><span class="n">df_lacrosse</span><span class="p">[</span><span class="s1">&#39;Height&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;Time&#39;</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time for tennis ball to hit ground: &quot;</span><span class="p">,</span><span class="n">time_to_ground_tennis</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time for lax ball to hit ground: &quot;</span><span class="p">,</span><span class="n">time_to_ground_lacrosse</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time for tennis ball to hit ground: &quot;</span><span class="p">,</span><span class="n">time_to_ground_tennis</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time for lax ball to hit ground: &quot;</span><span class="p">,</span><span class="n">time_to_ground_lacrosse</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
 
-<span class="sd">&#39;&#39;&#39;There is a small difference between when the tennis and lacrosse balls hit the ground. &#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;There is a small difference between when the tennis and lacrosse balls hit the ground. The lacrosse ball hits the ground slightly before the tennis ball.&#39;&#39;&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">48</span>
-<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="n">times_lacrosse</span><span class="p">,</span> <span class="n">heights_lacrosse</span> <span class="o">=</span> <span class="n">euler_method</span><span class="p">(</span><span class="n">A_lacrosse</span><span class="p">,</span> <span class="n">m_lacrosse</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="c1">#Convert to pandas DataFrame for easier handling</span>
-<span class="ne">---&gt; </span><span class="mi">48</span> <span class="n">df_tennis</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Time&#39;</span><span class="p">:</span> <span class="n">times_tennis</span><span class="p">,</span> <span class="s1">&#39;Height&#39;</span><span class="p">:</span> <span class="n">heights_tennis</span><span class="p">})</span>
-<span class="g g-Whitespace">     </span><span class="mi">49</span> <span class="n">df_lacrosse</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Time&#39;</span><span class="p">:</span> <span class="n">times_lacrosse</span><span class="p">,</span> <span class="s1">&#39;Height&#39;</span><span class="p">:</span> <span class="n">heights_lacrosse</span><span class="p">})</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="c1">#Plot the resulting height vs time for both balls</span>
-
-<span class="ne">NameError</span>: name &#39;pd&#39; is not defined
+<img alt="../_images/739d05998bca8f9acef672237bd793fb9a05017b48d077db2d44b071b96eedd8.png" src="../_images/739d05998bca8f9acef672237bd793fb9a05017b48d077db2d44b071b96eedd8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time for tennis ball to hit ground:  0.5710000000000004 s
+Time for lax ball to hit ground:  0.5690000000000004 s
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;There is a small difference between when the tennis and lacrosse balls hit the ground. The lacrosse ball hits the ground slightly before the tennis ball.&#39;
 </pre></div>
 </div>
 </div>
@@ -904,6 +901,72 @@ v_y \\ g - cv_y^2
 <ol class="arabic simple">
 <li><p>Show that the implicit Heun’s method has the same second order convergence as the Modified Euler’s method. <em>Hint: you can use the same code from above to create the log-log plot to get the error between <span class="math notranslate nohighlight">\(2\cos(\omega t)\)</span> and the <code class="docutils literal notranslate"><span class="pre">heun_step</span></code> integration. Use the same initial conditions x(0) = 2 m and v(0)=0m/s and the same RHS function, <code class="docutils literal notranslate"><span class="pre">springmass</span></code>.</em></p></li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
+
+<span class="c1">#Define the spring-mass system RHS function</span>
+<span class="k">def</span> <span class="nf">spring_mass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="c1"># y[0] = x, y[1] = v</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># spring constant</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># mass</span>
+    <span class="n">dydt</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">k</span><span class="o">/</span><span class="n">m</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dydt</span><span class="p">)</span>
+
+<span class="c1">#Define the implicit Heun&#39;s method (trapezoidal rule)</span>
+<span class="k">def</span> <span class="nf">heun_step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="c1"># Predictor step (Euler&#39;s method)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">rhs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="c1"># Corrector step (trapezoidal rule)</span>
+    <span class="k">def</span> <span class="nf">F</span><span class="p">(</span><span class="n">y_next</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">y_next</span> <span class="o">-</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">rhs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">rhs</span><span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">dt</span><span class="p">,</span> <span class="n">y_next</span><span class="p">))</span> <span class="o">-</span> <span class="n">y</span>
+    <span class="c1"># Solve for the next value implicitly</span>
+    <span class="n">y_next</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y_next</span>
+
+<span class="c1">#Initial conditions</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>  <span class="c1"># x(0) = 2, v(0) = 0</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">analytical_solution</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="c1">#Range of step sizes for error analysis</span>
+<span class="n">step_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1">#Perform integration and error analysis for different step sizes</span>
+<span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">step_sizes</span><span class="p">:</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">tf</span> <span class="o">+</span> <span class="n">dt</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y0</span>
+    <span class="n">numerical_solution</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    
+    <span class="c1">#Time integration using Heun&#39;s method</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">times</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">heun_step</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">spring_mass</span><span class="p">)</span>
+        <span class="n">numerical_solution</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="c1">#Calculate the error at the final time</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">analytical_solution</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">numerical_solution</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+<span class="c1">#Plotting the log-log plot of the error</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">step_sizes</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Implicit Heun</span><span class="se">\&#39;</span><span class="s1">s method error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Step size (log scale)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Error at final time (log scale)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Log-Log Plot of Error vs. Step Size for Implicit Heun</span><span class="se">\&#39;</span><span class="s1">s Method&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f7c7b6e45dedfc2bf5bbc64a9996b735f1cfc2c0f63b24a38a26653acf92a83c.png" src="../_images/f7c7b6e45dedfc2bf5bbc64a9996b735f1cfc2c0f63b24a38a26653acf92a83c.png" />
+</div>
+</div>
 <p><img alt="A lumped mass connected to a spring anddamper" src="../_images/damped-spring.png" /></p>
 <ol class="arabic simple" start="2">
 <li><p>In the image above, you have a spring, mass, <em>and damper</em>. A damper is designed to slow down a moving object. These devices are typical in automobiles, mountain bikes, doors, any place where oscillations may not be desired, but motion is required. The new differential equation, if F(t)=0, that results from this addition is</p></li>
@@ -916,21 +979,31 @@ v_y \\ g - cv_y^2
 <p>Use <span class="math notranslate nohighlight">\(\omega = 2\)</span> rad/s and <span class="math notranslate nohighlight">\(\zeta = 0.2\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">smd</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;Computes the right-hand side of the spring-mass-damper</span>
-<span class="sd">    differential equation, without friction.</span>
-<span class="sd">    </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">smd</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">zeta</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the right-hand side of the spring-mass-damper differential equation, without friction.</span>
 <span class="sd">    Arguments</span>
-<span class="sd">    ---------   </span>
+<span class="sd">    ---------</span>
 <span class="sd">    state : array of two dependent variables [x, v]^T</span>
-<span class="sd">    </span>
-<span class="sd">    Returns </span>
+<span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    derivs: array of two derivatives [v, zeta*w*v - w*w*x]^T</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c1">## your work here ##</span>
-    
+<span class="sd">    derivs : array of two derivatives [v, zeta*omega*v - omega**2*x]^T</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">state</span>  <span class="c1"># Unpack the state vector</span>
+    <span class="n">derivs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">,</span> <span class="o">-</span><span class="n">zeta</span><span class="o">*</span><span class="n">omega</span><span class="o">*</span><span class="n">v</span> <span class="o">-</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">])</span>  <span class="c1"># Compute derivatives</span>
     <span class="k">return</span> <span class="n">derivs</span>
+
+<span class="c1">#Example state vector [x, v]^T where x=2 (initial position) and v=0 (initial velocity)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+<span class="c1">#Compute the derivatives for the example state</span>
+<span class="n">derivatives</span> <span class="o">=</span> <span class="n">smd</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Derivatives: &quot;</span><span class="p">,</span><span class="n">derivatives</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Derivatives:  [ 0. -8.]
 </pre></div>
 </div>
 </div>
@@ -942,6 +1015,100 @@ v_y \\ g - cv_y^2
 <p>b. second order Runge Kutta method (modified Euler method)</p>
 <p>c. the implicit Heun’s method</p>
 <p>How many time steps does each method need to converge to the same results? <em>Remember that each method has a certain convergence rate</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Define the smd function from the second picture</span>
+<span class="k">def</span> <span class="nf">smd</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">zeta</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">state</span>  <span class="c1"># Unpack the state vector</span>
+    <span class="n">derivs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">v</span><span class="p">,</span> <span class="o">-</span><span class="n">zeta</span><span class="o">*</span><span class="n">omega</span><span class="o">*</span><span class="n">v</span> <span class="o">-</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">])</span>  <span class="c1"># Compute derivatives</span>
+    <span class="k">return</span> <span class="n">derivs</span>
+
+<span class="c1">#Initial conditions</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># initial position</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># initial velocity</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">v0</span><span class="p">])</span>
+
+<span class="c1">#Simulation parameters</span>
+<span class="n">t_end</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">omega</span><span class="p">)</span>  <span class="c1"># three periods of oscillation</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># time step</span>
+
+<span class="c1">#Euler method integration</span>
+<span class="k">def</span> <span class="nf">euler_integration</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">t_end</span><span class="p">:</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">smd</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+
+<span class="c1">#Second order Runge-Kutta (Modified Euler) integration</span>
+<span class="k">def</span> <span class="nf">rk2_integration</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">t_end</span><span class="p">:</span>
+        <span class="n">k1</span> <span class="o">=</span> <span class="n">smd</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">k2</span> <span class="o">=</span> <span class="n">smd</span><span class="p">(</span><span class="n">state</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k1</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="o">+</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k1</span> <span class="o">+</span> <span class="n">k2</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+
+<span class="c1">#Heun&#39;s method integration</span>
+<span class="k">def</span> <span class="nf">heun_integration</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span><span class="p">]</span>
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">t_end</span><span class="p">:</span>
+        <span class="n">initial_slope</span> <span class="o">=</span> <span class="n">smd</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">end_state</span> <span class="o">=</span> <span class="n">state</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">initial_slope</span>
+        <span class="n">corrected_slope</span> <span class="o">=</span> <span class="n">smd</span><span class="p">(</span><span class="n">end_state</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">state</span> <span class="o">+</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">initial_slope</span> <span class="o">+</span> <span class="n">corrected_slope</span><span class="p">)</span>
+        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+
+<span class="c1">#Perform the integrations</span>
+<span class="n">states_euler</span> <span class="o">=</span> <span class="n">euler_integration</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">states_rk2</span> <span class="o">=</span> <span class="n">rk2_integration</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">states_heun</span> <span class="o">=</span> <span class="n">heun_integration</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">t_end</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="c1">#Extract positions for plotting</span>
+<span class="n">positions_euler</span> <span class="o">=</span> <span class="n">states_euler</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">positions_rk2</span> <span class="o">=</span> <span class="n">states_rk2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">positions_heun</span> <span class="o">=</span> <span class="n">states_heun</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">t_end</span><span class="o">+</span><span class="n">dt</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="c1">#Plot the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">positions_euler</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Euler Integration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">positions_rk2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RK2 Integration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">positions_heun</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Heun Integration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Position (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Numerical Integration Comparison&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="sd">&#39;&#39;&#39;For Euler&#39;s method, the error is proportional to the time step (first-order). For RK2 and Heun&#39;s method, the error is proportional to the square of the time step (second-order)&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">v0</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1">#Simulation parameters</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">t_end</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">omega</span><span class="p">)</span>  <span class="c1"># three periods of oscillation</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># time step</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1">#Euler method integration</span>
+
+<span class="ne">NameError</span>: name &#39;omega&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="id1">
 <h2>Problems <a class="reference internal" href="04_Getting_to_the_root.html"><span class="doc std std-doc">Part 3</span></a><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
@@ -958,6 +1125,108 @@ v_y \\ g - cv_y^2
 <p>a. Plot the function <span class="math notranslate nohighlight">\(\sigma(T)\)</span> for <span class="math notranslate nohighlight">\(T=0-100^{o}F\)</span>. Where do you see the function cross 50% (0.5)?</p>
 <p>b. Create two functions <code class="docutils literal notranslate"><span class="pre">f_T</span></code> and <code class="docutils literal notranslate"><span class="pre">dfdT</span></code> where <code class="docutils literal notranslate"><span class="pre">f_T</span></code>=<span class="math notranslate nohighlight">\(f(T)=\sigma(T) - 0.5\)</span> and <code class="docutils literal notranslate"><span class="pre">dfdT</span></code>=<span class="math notranslate nohighlight">\(\frac{df}{dT}\)</span></p>
 <p>c. Use the <code class="docutils literal notranslate"><span class="pre">incsearch</span></code> and <code class="docutils literal notranslate"><span class="pre">newtraph</span></code> functions to find the root of f(T). When does Newton-Raphson fail to converge? Why does it fail? <em>Hint: if you’re stuck here, take a look at this <a class="reference external" href="https://youtu.be/zyXRo8Qjj0A">youtube video finding an interval of convergence for the Newton-Raphson method</a>. Look at the animation of how the method converges and diverges.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">newton</span><span class="p">,</span> <span class="n">brentq</span>
+
+<span class="c1">#Part a</span>
+<span class="c1">#Constants for the sigmoid function</span>
+<span class="n">a0</span> <span class="o">=</span> <span class="mf">15.043</span>
+<span class="n">a1</span> <span class="o">=</span> <span class="mf">0.232</span>
+
+<span class="c1">#Sigmoid function definition</span>
+<span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a0</span> <span class="o">-</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">T</span><span class="p">))</span>
+
+<span class="c1">#Temperature range for plotting</span>
+<span class="n">T_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>  <span class="c1"># Fahrenheit</span>
+<span class="n">sigma_values</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">(</span><span class="n">T_range</span><span class="p">)</span>
+
+<span class="c1">#Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_range</span><span class="p">,</span> <span class="n">sigma_values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Probability of O-ring Failure&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;50</span><span class="si">% F</span><span class="s1">ailure Probability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Temperature (F)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Probability of O-ring Failure vs. Temperature&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sigma</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+<span class="n">T_cross_50</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The function crosses 50% at T = </span><span class="si">{</span><span class="n">T_cross_50</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> F.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+<span class="c1">#Function for the temperature at which the probability of failure is 50%</span>
+<span class="k">def</span> <span class="nf">f_T</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sigma</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+<span class="c1">#Derivative of the function with respect to temperature</span>
+<span class="k">def</span> <span class="nf">dfdT</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">e_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a0</span> <span class="o">-</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">a1</span> <span class="o">*</span> <span class="n">e_term</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">e_term</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+
+<span class="c1">#Search for brackets in which the function changes sign</span>
+<span class="k">def</span> <span class="nf">incsearch</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">brackets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">fs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">fs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">brackets</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">brackets</span>
+
+<span class="c1">#Find the root using Newton&#39;s method within a bracket</span>
+<span class="k">def</span> <span class="nf">newtraph</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">bracket</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bracket</span><span class="p">),</span> <span class="n">fprime</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">root</span>
+    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to converge in the bracket </span><span class="si">{</span><span class="n">bracket</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<span class="c1">#Use the functions to find the root</span>
+<span class="n">xmin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">xmax</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># number of points to search for brackets</span>
+
+<span class="c1">#Find brackets</span>
+<span class="n">brackets</span> <span class="o">=</span> <span class="n">incsearch</span><span class="p">(</span><span class="n">f_T</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="c1">#Find roots within brackets</span>
+<span class="n">roots</span> <span class="o">=</span> <span class="p">[</span><span class="n">newtraph</span><span class="p">(</span><span class="n">f_T</span><span class="p">,</span> <span class="n">dfdT</span><span class="p">,</span> <span class="n">bracket</span><span class="p">)</span> <span class="k">for</span> <span class="n">bracket</span> <span class="ow">in</span> <span class="n">brackets</span><span class="p">]</span>
+
+<span class="c1">#Print the roots</span>
+<span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found root at T = </span><span class="si">{</span><span class="n">root</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> F&quot;</span><span class="p">)</span>
+
+<span class="c1">#In case of multiple brackets, choose the first valid root</span>
+<span class="n">valid_roots</span> <span class="o">=</span> <span class="p">[</span><span class="n">root</span> <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span> <span class="k">if</span> <span class="n">root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">valid_roots</span><span class="p">:</span>
+    <span class="n">T_root</span> <span class="o">=</span> <span class="n">valid_roots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The temperature at which there is a 50% chance of O-ring failure is approximately </span><span class="si">{</span><span class="n">T_root</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> F.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No valid roots found.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <ol class="arabic" start="2">
 <li><p>In the <a class="reference external" href="https://cooperrc.github.io/computational-mechanics/module_03/04_Getting_to_the_root.html#shooting-method">Shooting Method
 example</a>, you determined the initial velocity after the first
@@ -978,6 +1247,34 @@ indices are given below for t[1430:2051] = 1.43-2.05 seconds.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i0</span><span class="p">],</span><span class="n">t</span><span class="p">[</span><span class="n">ie</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i0</span><span class="p">:</span><span class="n">ie</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="n">i0</span><span class="p">:</span><span class="n">ie</span><span class="p">],</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;../data/fallingtennisball02.txt&#39;</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Indices given for the analysis</span>
+<span class="n">i0</span> <span class="o">=</span> <span class="mi">1430</span>
+<span class="n">ie</span> <span class="o">=</span> <span class="mi">2051</span>
+
+<span class="c1"># Since we are looking at discrete data points, we can approximate the velocities by finite differences</span>
+<span class="n">v_before</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i0</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="n">i0</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">v_after</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="n">i0</span><span class="p">])</span>
+
+<span class="c1">#Part a</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i0</span><span class="p">,</span> <span class="n">ie</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">v_after</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">break</span>
+
+<span class="c1">#Part b</span>
+<span class="n">e</span> <span class="o">=</span> <span class="o">-</span><span class="n">v_after</span> <span class="o">/</span> <span class="n">v_before</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Velocity: &quot;</span><span class="p">,</span><span class="n">v_after</span><span class="p">,</span> <span class="s2">&quot;m/s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficient: &quot;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
