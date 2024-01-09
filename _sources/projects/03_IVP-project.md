@@ -5,9 +5,9 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.10.3
+    jupytext_version: 1.11.4
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -59,7 +59,7 @@ Your first objective is to integrate a numerical model that converges to
 equation (2.b), the Tsiolkovsky equation. Next, you will add drag and
 gravity and compare the results _between equations (1) and (2)_.
 Finally, you will vary the mass change rate to achieve the desired
-detonation height. 
+detonation height.
 
 +++
 
@@ -99,6 +99,12 @@ plt.style.use('fivethirtyeight')
 ```
 
 ```{code-cell} ipython3
+g = 9.81 
+c = 0    
+
+u = 250 
+dmdt = 0.05
+
 def simplerocket(state,dmdt=0.05, u=250):
     '''Computes the right-hand side of the differential equation
     for the acceleration of a rocket, without drag or gravity, in SI units.
@@ -115,16 +121,92 @@ def simplerocket(state,dmdt=0.05, u=250):
     '''
     
     dstate = np.zeros(np.shape(state))
-    # your work
-    return dstate
+    y, v, m = state  #Unpack the state vector
+    dv_dt = (u * dmdt) / m - g - (c / m) * v**2  # The acceleration of the rocket
+    dmdt = -dmdt  #The rate of change of mass is negative because mass is being lost
+    dstate = np.array([v, dv_dt, dmdt]) 
+    
+    return dstate 
 ```
 
 ```{code-cell} ipython3
+y0 = 0
+v0 = 0
 m0=0.25
 mf=0.05
-dm=0.05
-t = np.linspace(0,(m0-mf)/dm,500)
+dmdt=0.05
+t = np.linspace(0,(m0-mf)/dmdt,500)
 dt=t[1]-t[0]
+
+state = np.array([y0, v0, m0])  #Initial state vector
+states = []
+
+for _ in t:
+    #Compute the derivatives
+    derivatives = simplerocket(state, dmdt, u)
+    #Update the state
+    state = state + derivatives * dt
+    #Save the state
+    states.append(state)
+
+states = np.array(states)
+
+#Extract the position, velocity, and mass
+y = states[:, 0]
+v = states[:, 1]
+m = states[:, 2]
+
+#Plotting
+plt.figure(figsize=(12, 6))
+
+#Plot velocity vs time
+plt.subplot(1, 2, 1)
+plt.plot(t, v, label='Velocity (m/s)')
+plt.title('Rocket Velocity over Time')
+plt.xlabel('Time (s)')
+plt.ylabel('Velocity (m/s)')
+plt.legend()
+
+#Plot mass vs time
+plt.subplot(1, 2, 2)
+plt.plot(t, m, label='Mass (kg)', color='r')
+plt.title('Rocket Mass over Time')
+plt.xlabel('Time (s)')
+plt.ylabel('Mass (kg)')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
+
+#Logarithmic comparison for Tsiolkovsky's equation validation
+log_ratio_calculated = np.log(m / m0)
+log_ratio_analytical = np.log(mf / m0) * np.ones_like(t)  # constant analytical value
+
+#Plot log(mf/m0) vs log(state[2]/initial_mass)
+plt.figure(figsize=(6, 6))
+plt.plot(t, log_ratio_calculated, label='Integrated solution (log(state[2]/initial_mass))')
+plt.plot(t, log_ratio_analytical, 'r--', label="Tsiolkovsky's analytical value (log(mf/m0))")
+plt.title('Logarithmic Comparison with Tsiolkovsky\'s Equation')
+plt.xlabel('Time (s)')
+plt.ylabel('Logarithmic Ratio')
+plt.legend()
+plt.show()
+
+#Calculate error between integrated solution and Tsiolkovsky's equation
+error = log_ratio_calculated - log_ratio_analytical
+
+#Plot error over time
+plt.figure(figsize=(6, 6))
+plt.plot(t, error, label='Error')
+plt.title('Error Over Time')
+plt.xlabel('Time (s)')
+plt.ylabel('Error')
+plt.legend()
+plt.show()
+
+#Output the maximum error
+max_error = np.max(np.abs(error))
+print("Max error: ",max_error)
 ```
 
 __2.__ You should have a converged solution for integrating `simplerocket`. Now, create a more relastic function, `rocket` that incorporates gravity and drag and returns the velocity, $v$, the acceleration, $a$, and the mass rate change $\frac{dm}{dt}$, as a function of the $state = [position,~velocity,~mass] = [y,~v,~m]$ using eqn (1). Where the mass rate change $\frac{dm}{dt}$ and the propellent speed $u$ are constants. The average velocity of gun powder propellent used in firework rockets is $u=250$ m/s [3,4]. 
@@ -157,8 +239,64 @@ def rocket(state,dmdt=0.05, u=250,c=0.18e-3):
     '''
     g=9.81
     dstate = np.zeros(np.shape(state))
-    # your work
+    y, v, m = state  #Unpack the state vector
+    dv_dt = (u * dmdt) / m - g - (c / m) * v**2 
+    dm_dt = -dmdt
+    dstate = np.array([v, dv_dt, dmdt])
+    
     return dstate
+```
+
+```{code-cell} ipython3
+y0 = 0 
+v0 = 0  
+m0 = 0.25  
+mf = 0.05 
+
+#Time setup for integration
+time_to_burn = (m0-mf) / dmdt
+t = np.linspace(0, time_to_burn, 500)
+dt = t[1] - t[0] 
+
+#Integrate the equations using two methods: Euler (explicit) and Improved Euler (implicit)
+#Initialize arrays to store the states for both methods
+states_explicit = []
+states_implicit = []
+
+#Set initial state
+state_explicit = state_implicit = np.array([y0, v0, m0])
+
+#Euler method (explicit)
+for _ in t:
+    derivatives = rocket(state_explicit, dmdt, u, c)
+    state_explicit = state_explicit + derivatives * dt
+    states_explicit.append(state_explicit)
+
+#Improved Euler method (implicit)
+for _ in t:
+    derivatives = rocket(state_implicit, dmdt, u, c)
+    #Predict the next state
+    state_pred = state_implicit + derivatives * dt
+    #Compute derivatives for the predicted state
+    derivatives_pred = rocket(state_pred, dmdt, u, c)
+    #Correct the state using the average of the derivatives
+    state_implicit = state_implicit + 0.5 * (derivatives + derivatives_pred) * dt
+    states_implicit.append(state_implicit)
+
+states_explicit = np.array(states_explicit)
+states_implicit = np.array(states_implicit)
+
+#Extract the position (height) for both methods
+y_explicit = states_explicit[:, 0]
+y_implicit = states_implicit[:, 0]
+
+#Find the height reached when the mass reaches mf for both methods
+height_explicit = y_explicit[-1]
+height_implicit = y_implicit[-1]
+
+print("Explicit Euler method: ",height_explicit)
+print("Improved (implcit) Euler method: ", height_implicit)
+'''The results are pretty close, telling us that both methods provide a reliable and consistent solution.'''
 ```
 
 __3.__ Solve for the mass change rate that results in detonation at a height of 300 meters. Create a function `f_dm` that returns the final height of the firework when it reaches $m_{f}=0.05~kg$. The inputs should be 
@@ -182,7 +320,12 @@ b. Use the modified secant method to find the root of the function $f_{m}$.
 c. Plot your solution for the height as a function of time and indicate the detonation with a `*`-marker.
 
 ```{code-cell} ipython3
-def f_dm(dmdt, m0 = 0.25, c = 0.18e-3, u = 250):
+m0 = 0.25  
+c = 0.18e-3  
+u = 250  
+height_desired = 300
+
+def f_dm(dmdt, m0 = 0.25, c = 0.18e-3, u = 250, height_desired=300):
     ''' define a function f_dm(dmdt) that returns 
     height_desired-height_predicted[-1]
     here, the time span is based upon the value of dmdt
@@ -199,12 +342,49 @@ def f_dm(dmdt, m0 = 0.25, c = 0.18e-3, u = 250):
     error: the difference between height_desired and height_predicted[-1]
         when f_dm(dmdt) = 0, the correct mass change rate was chosen
     '''
-    # your work
+    height_desired=300
+    
+    time_to_burn = m0 / dmdt
+    t = np.linspace(0, time_to_burn, 500)  # array of time values
+    dt = t[1] - t[0]  # time step
+    
+    # Initial state
+    state = np.array([0, 0, m0])  # initial state vector [position, velocity, mass]
+    
+    # Integrate the rocket equation over time
+    for _ in t:
+        derivatives = rocket(state, dmdt, u, c)
+        state = state + derivatives * dt
+    
+    # Final predicted height
+    height_predicted = state[0]
+    
+    # Error in final height
+    error = height_desired - height_predicted
+    
     return error
 ```
 
 ```{code-cell} ipython3
-def mod_secant(func,dx,x0,es=0.0001,maxit=50):
+def incsearch(func, x1, x2, m0, c, u, height_desired, sub_intervals):
+    '''
+    Perform an incremental search for the root of the function between x1 and x2.
+    The search is performed in sub_intervals within the given range.
+    '''
+    x = np.linspace(x1, x2, sub_intervals)
+    signs = np.sign([func(dm, m0, c, u, height_desired) for dm in x])
+    sign_changes = np.where(np.diff(signs))[0]
+    
+    # Return the pair of x where the sign change occurs
+    if len(sign_changes) == 0:
+        return None, None
+    else:
+        return x[sign_changes[0]], x[sign_changes[0]+1]
+    
+```
+
+```{code-cell} ipython3
+def mod_secant(func,dx,x0,es=0.0001,maxit=50, *params):
     '''mod_secant: Modified secant root location zeroes
     root,[fx,ea,iter]=mod_secant(func,dfunc,xr,es,maxit,p1,p2,...):
     uses modified secant method to find the root of func
@@ -223,19 +403,57 @@ def mod_secant(func,dx,x0,es=0.0001,maxit=50):
     ea = approximate relative error ( )
     iter = number of iterations'''
 
-    iter = 0;
-    xr=x0
-    for iter in range(0,maxit):
-        xrold = xr;
-        dfunc=(func(xr+dx)-func(xr))/dx;
-        xr = xr - func(xr)/dfunc;
+    iter = 0
+    xr = x0
+    for iter in range(maxit):
+        xrold = xr
+        dfun = (func(xr+dx, *params)-func(xr, *params))/dx
+        xr = xr - func(xr, *params)/dfun
         if xr != 0:
-            ea = abs((xr - xrold)/xr) * 100;
+            ea = abs((xr - xrold)/xr) * 100
         else:
-            ea = abs((xr - xrold)/1) * 100;
-        if ea <= es:
+            ea = abs((xr - xrold)/1) * 100
+        if ea < es:
             break
-    return xr,[func(xr),ea,iter]
+    return xr, func(xr, *params), ea, iter
+```
+
+```{code-cell} ipython3
+#Part a
+x1, x2 = incsearch(f_dm, 0.05, 0.4, m0, c, u, height_desired, 10)  # using 10 sub-intervals
+```
+
+```{code-cell} ipython3
+#Part b
+dm_dt_root, f_at_root, ea, iter = mod_secant(f_dm, 0.0001, (x1+x2)/2, 0.0001, 50, m0, c, u, height_desired)
+```
+
+```{code-cell} ipython3
+#Part c
+
+#Time setup for integration with the found dm_dt_root
+time_to_burn = m0 / dm_dt_root
+t = np.linspace(0, time_to_burn, 500)  # array of time values
+dt = t[1] - t[0]  # time step
+
+#Integrate the rocket equation over time with the found dm_dt_root
+states = np.array([0, 0, m0])  # initial state vector [position, velocity, mass]
+heights = []
+
+for ti in t:
+    derivatives = rocket(states, dmdt_root, u, c)
+    states = states + derivatives * dt
+    heights.append(states[0])
+
+#Plotting
+plt.figure(figsize=(10, 5))
+plt.plot(t, heights, label='Height vs Time')
+plt.plot(time_to_burn, height_desired, 'r*', label='Detonation Point')
+plt.title('Rocket Height vs Time with Detonation Point')
+plt.xlabel('Time (s)')
+plt.ylabel('Height (m)')
+plt.legend()
+plt.show()
 ```
 
 ## References
