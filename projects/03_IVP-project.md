@@ -421,11 +421,13 @@ def mod_secant(func,dx,x0,es=0.0001,maxit=50, *params):
 ```{code-cell} ipython3
 #Part a
 x1, x2 = incsearch(f_dm, 0.05, 0.4, m0, c, u, height_desired, 10)  # using 10 sub-intervals
+print("Closest mass change rates: ", x1, ",", x2)
 ```
 
 ```{code-cell} ipython3
 #Part b
 dm_dt_root, f_at_root, ea, iter = mod_secant(f_dm, 0.0001, (x1+x2)/2, 0.0001, 50, m0, c, u, height_desired)
+print("The root of the function is approximately: ", dm_dt_root, "kg/s")
 ```
 
 ```{code-cell} ipython3
@@ -441,7 +443,7 @@ states = np.array([0, 0, m0])  # initial state vector [position, velocity, mass]
 heights = []
 
 for ti in t:
-    derivatives = rocket(states, dmdt_root, u, c)
+    derivatives = rocket(states, dm_dt_root, u, c)
     states = states + derivatives * dt
     heights.append(states[0])
 
