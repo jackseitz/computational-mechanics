@@ -545,6 +545,51 @@ F \\
 <p>Try to use <code class="docutils literal notranslate"><span class="pre">np.linalg.solve</span></code> to find the piston x-positions. Do you get
 any warnings or errors? _use stiffness values of <span class="math notranslate nohighlight">\(k_* = 1\)</span> and force of
 <span class="math notranslate nohighlight">\(F=1\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">lu_factor</span><span class="p">,</span> <span class="n">lu_solve</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">F</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">]])</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">F</span><span class="p">])</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">error_message</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">x_positions</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The piston x positions are: &quot;</span><span class="p">,</span><span class="n">x_positions</span><span class="p">)</span>
+<span class="sd">&#39;&#39;&#39;No error&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The piston x positions are:  [-1.11022302e-16 -1.00000000e+00 -2.00000000e+00 -3.00000000e+00
+ -4.00000000e+00]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;No error&#39;
+</pre></div>
+</div>
+</div>
+</div>
 <p>Now, consider case 2,</p>
 <p>Using a FBD for each piston, in case 2:</p>
 <p><span class="math notranslate nohighlight">\(k_1x_{1}-k_2x_{2}=F\)</span></p>
@@ -572,6 +617,41 @@ F \\
 any warnings or errors? Why does this solution work better <span class="xref myst">hint: check
 condition
 numbers</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A_case2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">k</span><span class="p">]])</span>
+
+<span class="n">B_case2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">x_positions_case2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A_case2</span><span class="p">,</span> <span class="n">B_case2</span><span class="p">)</span>
+    <span class="n">condition_number_case2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A_case2</span><span class="p">)</span>
+    <span class="n">warning_or_error_case2</span> <span class="o">=</span> <span class="s2">&quot;No warnings or errors&quot;</span>
+    
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">warning_or_error_case2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">condition_number_case2</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">x_positions_case2</span> <span class="o">=</span> <span class="kc">None</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The piston x positions are: &quot;</span><span class="p">,</span><span class="n">x_positions_case2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The condition number is: &quot;</span><span class="p">,</span><span class="n">condition_number_case2</span><span class="p">)</span>
+<span class="sd">&#39;&#39;&#39;No errors. This solve works better due to the fact that this matrix has a lower and more stable condition number&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The piston x positions are:  [4. 3. 2. 1.]
+The condition number is:  29.28405223595455
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;No errors. This solve works better due to the fact that this matrix has a lower and more stable condition number&#39;
+</pre></div>
+</div>
+</div>
+</div>
 <p><img alt="HVAC diagram showing the flow rates and connections between floors" src="../_images/hvac.png" /></p>
 <ol class="arabic simple" start="2">
 <li><p>In the figure above you have an idealized Heating, Ventilation and
@@ -601,6 +681,90 @@ building at $\dot{m}_1. Our goal is to determine the steady-state temperatures o
 <p>b. Create the known vector <span class="math notranslate nohighlight">\(\mathbf{b}\)</span></p>
 <p>c. Solve for the unknown variables, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span></p>
 <p>d. What are the warmest and coldest rooms? What are their temperatures?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_dot</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">]</span>  
+<span class="n">Cp</span> <span class="o">=</span> <span class="mi">1000</span> 
+<span class="n">Q_in</span> <span class="o">=</span> <span class="mi">300</span>  
+<span class="n">T_in</span> <span class="o">=</span> <span class="mi">12</span>  
+
+<span class="c1">#Part a</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="p">,</span> <span class="o">-</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="p">,</span> <span class="p">(</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">*</span><span class="n">Cp</span><span class="p">,</span> <span class="o">-</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="p">,</span> <span class="p">(</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">m_dot</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span><span class="o">*</span><span class="n">Cp</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix A: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matrix A: 
+[[ 100. -120.    0.]
+ [-100.  240. -120.]
+ [   0. -120.  220.]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="n">Q_in</span> <span class="o">+</span> <span class="n">m_dot</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="o">*</span><span class="n">T_in</span><span class="p">,</span>
+    <span class="n">Q_in</span> <span class="o">-</span> <span class="n">m_dot</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="o">*</span><span class="n">T_in</span><span class="p">,</span>
+    <span class="n">Q_in</span> <span class="o">-</span> <span class="n">m_dot</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">Cp</span><span class="o">*</span><span class="n">T_in</span>
+<span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Known vector b: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Known vector b: 
+[540.  60.  60.]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solved unknown variables: &quot;</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Solved unknown variables:  [19.32 11.6   6.6 ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part d</span>
+<span class="n">warmest_room_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">coldest_room_temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">warmest_room</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1">#Adding 1 to match room numbering starting from 1</span>
+<span class="n">coldest_room</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warmest room: &quot;</span><span class="p">,</span><span class="n">warmest_room</span><span class="p">,</span><span class="s2">&quot;, Warmest temp: &quot;</span><span class="p">,</span> <span class="n">warmest_room_temp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coldest room: &quot;</span><span class="p">,</span><span class="n">coldest_room</span><span class="p">,</span><span class="s2">&quot;, Coldest temp: &quot;</span><span class="p">,</span> <span class="n">coldest_room_temp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warmest room:  1 , Warmest temp:  19.32
+Coldest room:  3 , Coldest temp:  6.6
+</pre></div>
+</div>
+</div>
+</div>
 <ol class="arabic simple" start="3">
 <li><p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_matrix">Hilbert Matrix</a> has a high condition number and as the matrix increases dimensions, the condition number increases. Find the condition number of a</p></li>
 </ol>
@@ -610,6 +774,39 @@ building at $\dot{m}_1. Our goal is to determine the steady-state temperatures o
 <p>d. <span class="math notranslate nohighlight">\(15 \times 15\)</span> Hilbert matrix</p>
 <p>e. <span class="math notranslate nohighlight">\(20 \times 20\)</span> Hilbert matrix</p>
 <p>If the accuracy of each matrix element is <span class="math notranslate nohighlight">\(\approx 10^{-16}\)</span>, what is the expected rounding error in the solution <span class="math notranslate nohighlight">\(\mathbf{Ax} = \mathbf{b}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{A}\)</span> is the Hilbert matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hilbert_matrix</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+
+<span class="c1"># Calculate condition numbers for Hilbert matrices of sizes 1x1, 5x5, 10x10, 15x15, and 20x20</span>
+<span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">condition_numbers</span> <span class="o">=</span> <span class="p">{</span><span class="n">size</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">hilbert_matrix</span><span class="p">(</span><span class="n">size</span><span class="p">))</span> <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">sizes</span><span class="p">}</span>
+
+<span class="n">errors</span> <span class="o">=</span> <span class="p">{</span><span class="n">size</span><span class="p">:</span> <span class="n">cond</span> <span class="o">*</span> <span class="mf">1e-16</span> <span class="k">for</span> <span class="n">size</span><span class="p">,</span> <span class="n">cond</span> <span class="ow">in</span> <span class="n">condition_numbers</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix condition number (1 = 1x1 matrix): &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">condition_numbers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix errors (1 = 1x1 matrix): &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;The expected rounding error for the solution to Ax=b would be A*10^-16. The condition number scales the error.&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matrix condition number (1 = 1x1 matrix): 
+{1: 1.0, 5: 476607.2502425855, 10: 16024416987428.36, 15: 3.67568286586649e+17, 20: 1.1484020388436145e+18}
+Matrix errors (1 = 1x1 matrix): 
+{1: 1e-16, 5: 4.766072502425855e-11, 10: 0.001602441698742836, 15: 36.7568286586649, 20: 114.84020388436144}
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The expected rounding error for the solution to Ax=b would be A*10^-16. The condition number scales the error.&#39;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="problems-part-2">
 <h2>Problems <a class="reference internal" href="02_Gauss_elimination.html"><span class="doc std std-doc">Part 2</span></a><a class="headerlink" href="#problems-part-2" title="Permalink to this heading">#</a></h2>
@@ -638,6 +835,39 @@ m_{1}g \\
 m_{2}g \\
 m_{3}g \\
 m_{4}g \end{array} \right]\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">100</span> 
+<span class="n">masses</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>  
+<span class="n">g</span> <span class="o">=</span> <span class="mf">9.81</span>  
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">masses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">g</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Position of m1: &quot;</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Position of m2: &quot;</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Position of m3: &quot;</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Position of m4: &quot;</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Position of m1:  0.9810000000000008 m
+Position of m2:  1.8639000000000014 m
+Position of m3:  2.5506000000000024 m
+Position of m4:  2.9430000000000023 m
+</pre></div>
+</div>
+</div>
+</div>
 <p><img alt="Triangular truss" src="../_images/truss.png" /></p>
 <p>For problems <strong>2-3</strong>, consider the simple 3-element triangular truss, shown above, with a point load applied at the tip. The goal is to understand what tension is in the horizontal element, <span class="math notranslate nohighlight">\(P_1\)</span>. In problem <strong>2</strong>, the applied force is verical <span class="math notranslate nohighlight">\((\theta=0)\)</span> and in problem <strong>3</strong> the applied force varies in angle <span class="math notranslate nohighlight">\((\theta \neq 0)\)</span>.</p>
 <ol class="arabic simple" start="2">
@@ -659,6 +889,90 @@ F \\
 <p>a. Create the system of equations, <span class="math notranslate nohighlight">\(\mathbf{Ax}=\mathbf{b}\)</span>, when <span class="math notranslate nohighlight">\(\alpha=75^o\)</span>, <span class="math notranslate nohighlight">\(\beta=30^o\)</span>, and <span class="math notranslate nohighlight">\(F=1~kN\)</span>. Use <strong>Gauss elimination</strong> to solve for <span class="math notranslate nohighlight">\(P_1,~P_2,~and~R_2\)</span>. What is the resulting augmented matrix, <span class="math notranslate nohighlight">\(\mathbf{A|y}\)</span> after Gauss elimination?</p>
 <p>b. Solve for the <span class="math notranslate nohighlight">\(\mathbf{LU}\)</span> decomposition of <span class="math notranslate nohighlight">\(\mathbf{A}\)</span>.</p>
 <p>c. Use the <span class="math notranslate nohighlight">\(\mathbf{LU}\)</span> solution to solve for the tension in bar 1 <span class="math notranslate nohighlight">\((P_1)\)</span> every 10 N values of force, F, between 100 N and 1100 N. Plot <span class="math notranslate nohighlight">\(P_1~vs~F\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+<span class="n">alpha_deg</span> <span class="o">=</span> <span class="mi">75</span>
+<span class="n">beta_deg</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">alpha_deg</span><span class="p">)</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">beta_deg</span><span class="p">)</span>
+
+<span class="n">F</span> <span class="o">=</span> <span class="mi">1</span>  
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">)],</span>
+              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1">#Perform Gaussian elimination (LU decomposition) on matrix A</span>
+<span class="n">lu</span><span class="p">,</span> <span class="n">piv</span> <span class="o">=</span> <span class="n">lu_factor</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="n">LU</span> <span class="o">=</span> <span class="n">lu</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resulting matrix: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">LU</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Resulting matrix: 
+[[ 1.          0.50881905 -0.12940952]
+ [ 0.         -1.96592583  1.5       ]
+ [ 0.         -1.39893853  0.94888874]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+<span class="n">forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">tensions_P1</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">forces</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">force</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">lu_solve</span><span class="p">((</span><span class="n">lu</span><span class="p">,</span> <span class="n">piv</span><span class="p">),</span> <span class="n">b</span><span class="p">)</span> 
+    <span class="n">tensions_P1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LU decomposition: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LU decomposition: 
+[-611.04350424 2360.89080694 2360.89080694]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">forces</span><span class="p">,</span> <span class="n">tensions_P1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tension in Bar P1 vs. Applied Force F&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Force F (N)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tension in Bar P1 (N)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tensions in bar 1 (P1): &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tensions_P1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/617cec966fb69886d26c27d30176cc5a328a443003e571aea462fb34ace1ac8f.png" src="../_images/617cec966fb69886d26c27d30176cc5a328a443003e571aea462fb34ace1ac8f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tensions in bar 1 (P1): 
+[-55.549409476594455, -117.2709755616994, -178.99254164680434, -240.71410773190928, -302.4356738170143, -364.15723990211916, -425.87880598722415, -487.6003720723291, -549.321938157434, -611.0435042425389]
+</pre></div>
+</div>
+</div>
+</div>
 <ol class="arabic simple" start="3">
 <li><p>Using the same truss as shown above, let’s calculate the tension in bar 1, <span class="math notranslate nohighlight">\(P_1\)</span>, when <span class="math notranslate nohighlight">\(\theta=[0...90^o]\)</span> and <span class="math notranslate nohighlight">\(F=[100...1100]~kN\)</span>. When <span class="math notranslate nohighlight">\(\theta\neq 0\)</span>, the resulting 6 equations and 6 unknowns are given in the following matrix</p></li>
 </ol>
@@ -687,6 +1001,119 @@ F\cos\theta \\
 <p>a. Create the system of equations, <span class="math notranslate nohighlight">\(\mathbf{Ax}=\mathbf{b}\)</span>, when <span class="math notranslate nohighlight">\(\alpha=75^o\)</span>, <span class="math notranslate nohighlight">\(\beta=30^o\)</span>, <span class="math notranslate nohighlight">\(\theta=45^o=\pi/4\)</span>, and <span class="math notranslate nohighlight">\(F=1~kN\)</span>. Use <strong>Gauss elimination</strong> to solve for <span class="math notranslate nohighlight">\(P_1,~P_2,~P_3,~R_1,~R_2,~and~R_3\)</span>. What is the resulting augmented matrix, <span class="math notranslate nohighlight">\(\mathbf{A|y}\)</span> after Gauss elimination? <em>Hint: do you see a problem with the order of the equations? How can you <strong>pivot</strong> to fix it?</em></p>
 <p>b. Solve for the <span class="math notranslate nohighlight">\(\mathbf{PLU}\)</span> decomposition of <span class="math notranslate nohighlight">\(\mathbf{A}\)</span>.</p>
 <p>c. Use the <span class="math notranslate nohighlight">\(\mathbf{PLU}\)</span> solution to solve for the tension in bar 1 <span class="math notranslate nohighlight">\((P_1)\)</span> every 10 N values of force, F, between 100 N and 1100 N. Plot <span class="math notranslate nohighlight">\(P_1~vs~F\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+<span class="n">alpha_deg</span> <span class="o">=</span> <span class="mi">75</span>
+<span class="n">beta_deg</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">theta_deg</span> <span class="o">=</span> <span class="mi">45</span> 
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">alpha_deg</span><span class="p">)</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">beta_deg</span><span class="p">)</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">theta_deg</span><span class="p">)</span>
+
+<span class="n">F</span> <span class="o">=</span> <span class="mi">1000</span> 
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">F</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
+    <span class="o">-</span><span class="n">F</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">0</span>
+<span class="p">])</span>
+
+<span class="c1">#Before applying Gaussian elimination, we need to pivot the matrix A to prevent a zero from appearing in the pivot position in the first row.</span>
+<span class="c1">#Swapping row 1 with a row below it that has a non-zero entry in the first column.</span>
+
+<span class="n">A</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+<span class="n">b</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">b</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+
+<span class="n">lu</span><span class="p">,</span> <span class="n">piv</span> <span class="o">=</span> <span class="n">lu_factor</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pivoted matrices: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">piv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pivoted matrices: 
+[[ 1.          0.25881905  0.          0.          1.          0.        ]
+ [ 0.          0.96592583  0.          1.          0.          0.        ]
+ [ 0.          0.          0.96592583  0.96592583  0.          0.        ]
+ [ 0.          0.          1.         -0.96592583  0.          1.        ]
+ [-1.          0.26794919  0.26794919  0.54535061  1.         -0.54535061]
+ [ 0.          0.         -0.26794919 -0.53589838  0.          1.53589838]]
+[0 1 2 5 4 5]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+<span class="n">forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">tensions_P1</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">force</span> <span class="ow">in</span> <span class="n">forces</span><span class="p">:</span>
+    <span class="n">b_updated</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">force</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
+        <span class="o">-</span><span class="n">force</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="mi">0</span>
+    <span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">lu_solve</span><span class="p">((</span><span class="n">lu</span><span class="p">,</span> <span class="n">piv</span><span class="p">),</span> <span class="n">b_updated</span><span class="p">)</span>
+    <span class="n">tensions_P1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PLU decomposition: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PLU decomposition: 
+[ 172.05587537 -145.43873882  664.77285435  140.48303397 -134.41355987
+ -642.12126864]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">forces</span><span class="p">,</span> <span class="n">tensions_P1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tension in Bar P1 vs. Applied Force F&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Force F (N)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tension in Bar P1 (N)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tensions in bar 1 (P1): &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tensions_P1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/643064cc03bfad21f522a3fdc8bd8a32f1b322196fb73073e750967e33195ae3.png" src="../_images/643064cc03bfad21f522a3fdc8bd8a32f1b322196fb73073e750967e33195ae3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tensions in bar 1 (P1): 
+[15.641443215823761, 33.020824566739044, 50.40020591765434, 67.77958726856966, 85.15896861948492, 102.53834997040022, 119.91773132131553, 137.29711267223087, 154.67649402314606, 172.05587537406137]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="problems-part-3">
 <h2>Problems <a class="reference internal" href="03_Linear-regression-algebra.html"><span class="doc std std-doc">Part 3</span></a><a class="headerlink" href="#problems-part-3" title="Permalink to this heading">#</a></h2>
@@ -701,6 +1128,132 @@ F\cos\theta \\
 <p>b. Create a <span class="math notranslate nohighlight">\(\mathbf{Z}\)</span>-matrix to perform the least-squares regression for the given Prony series equation <span class="math notranslate nohighlight">\(\mathbf{y} = \mathbf{Za}\)</span>.</p>
 <p>c. Solve for the constants, <span class="math notranslate nohighlight">\(a_1,~a_2,~a_3,~a_4~,a_5\)</span></p>
 <p>d. Plot the best-fit function and the data from <code class="docutils literal notranslate"><span class="pre">../data/stress_relax.dat</span></code> <em>Use at least 50 points in time to get a smooth best-fit line.</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;../data/stress_relax.dat&#39;</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">time</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">stress</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">33</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">111</span><span class="p">]</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Z matrix: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Z matrix: 
+[[1.00000000e+000 1.00000000e+000 1.00000000e+000 1.00000000e+000
+  1.00000000e+000]
+ [2.80995455e-004 1.30906597e-005 2.24328575e-015 5.31744167e-050
+  1.00000000e+000]
+ [2.21869645e-011 2.24328575e-015 1.12889563e-044 1.50351652e-148
+  1.00000000e+000]
+ [2.21869645e-011 2.24328575e-015 1.12889563e-044 1.50351652e-148
+  1.00000000e+000]
+ [1.75184824e-018 3.84421493e-025 5.68097638e-074 4.25122091e-247
+  1.00000000e+000]
+ [1.75184824e-018 3.84421493e-025 5.68097638e-074 4.25122091e-247
+  1.00000000e+000]
+ [6.80911784e-047 3.31512508e-064 3.64334047e-191 0.00000000e+000
+  1.00000000e+000]
+ [3.35186584e-068 1.66828065e-093 4.64309253e-279 0.00000000e+000
+  1.00000000e+000]
+ [2.89053935e-107 3.22734927e-147 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [1.96820231e-153 1.06990665e-210 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [6.04035826e-189 1.58110681e-259 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [8.59483119e-317 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]
+ [0.00000000e+000 0.00000000e+000 0.00000000e+000 0.00000000e+000
+  1.00000000e+000]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+<span class="n">coefficients</span><span class="p">,</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">stress</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Constant a1: &quot;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Constant a2: &quot;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Constant a3: &quot;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Constant a4: &quot;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Constant a5: &quot;</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Constant a1:  192109065860.60938
+Constant a2:  -4123685920825.3857
+Constant a3:  1965733384267.1187
+Constant a4:  1965843470703.8716
+Constant a5:  32.660400390625
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part d</span>
+<span class="n">smooth_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">time</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">smooth_stress</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">smooth_time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">smooth_time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                        <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">smooth_time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">smooth_time</span><span class="o">/</span><span class="n">tau</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span>
+                                        <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">smooth_time</span><span class="p">))),</span> <span class="n">coefficients</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">stress</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smooth_time</span><span class="p">,</span> <span class="n">smooth_stress</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best-fit&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Stress Relaxation over Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time (sec)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Stress (MPa)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="sd">&#39;&#39;&#39;Tried debugging this plot, I am aware it looks incorrect.&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/64ec8afc992f0c47e534f6293385eafa0a242e82100625680664921e8dd0ae98.png" src="../_images/64ec8afc992f0c47e534f6293385eafa0a242e82100625680664921e8dd0ae98.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Tried debugging this plot, I am aware it looks incorrect.&#39;
+</pre></div>
+</div>
+</div>
+</div>
 <ol class="arabic simple" start="3">
 <li><p>Load the ‘…/data/primary-energy-consumption-by-region.csv’ that has the energy consumption of different regions of the world from 1965 until 2018 <a class="reference external" href="https://ourworldindata.org/energy">Our world in Data</a>.
 You are going to compare the energy consumption of the United States to all of Europe. Load the data into a pandas dataframe. <em>Note: you can get certain rows of the data frame by specifying what you’re looking for e.g.
@@ -709,6 +1262,75 @@ You are going to compare the energy consumption of the United States to all of E
 <p>a. Use a piecewise least-squares regression to find a function for the energy consumption as a function of year</p>
 <p>energy consumed = <span class="math notranslate nohighlight">\(f(t) = At+B+C(t-1970)H(t-1970)\)</span></p>
 <p>c. What is your prediction for US energy use in 2025? How about European energy use in 2025?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../data/primary-energy-consumption-by-region.csv&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">US</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;United States&#39;</span><span class="p">]</span>
+<span class="n">EURO</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Europe&#39;</span><span class="p">]</span>
+
+<span class="n">x_US</span> <span class="o">=</span> <span class="n">US</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_US</span> <span class="o">=</span> <span class="n">US</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x_EURO</span> <span class="o">=</span> <span class="n">EURO</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">y_EURO</span> <span class="o">=</span> <span class="n">EURO</span><span class="p">[</span><span class="s1">&#39;Primary Energy Consumption (terawatt-hours)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+
+
+<span class="k">def</span> <span class="nf">least_squares_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))])</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1">#US</span>
+<span class="n">coeff_US</span> <span class="o">=</span> <span class="n">least_squares_fit</span><span class="p">(</span><span class="n">x_US</span><span class="p">,</span> <span class="n">y_US</span><span class="p">)</span>
+
+<span class="c1">#Europe</span>
+<span class="n">coeff_EURO</span> <span class="o">=</span> <span class="n">least_squares_fit</span><span class="p">(</span><span class="n">x_EURO</span><span class="p">,</span> <span class="n">y_EURO</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;US function slope and intercept: &quot;</span><span class="p">,</span><span class="n">coeff_US</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EURO function slope and intercept: &quot;</span><span class="p">,</span><span class="n">coeff_EURO</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>US function slope and intercept:  [ 2.00397832e+02 -3.76521141e+05]
+EURO function slope and intercept:  [ 1.99620397e+02 -3.75985956e+05]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c (b?)</span>
+
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">coeff</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">coeff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">coeff</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Predictions for 2025 for both US and Europe using the least-squares regression model</span>
+<span class="n">predicted_US_2025_ls</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="n">coeff_US</span><span class="p">)</span>
+<span class="n">predicted_EURO_2025_ls</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="n">coeff_EURO</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted 2025 US energy use: &quot;</span><span class="p">,</span><span class="n">predicted_US_2025_ls</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted 2025 EURO energy use: &quot;</span><span class="p">,</span><span class="n">predicted_EUR_2025_ls</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Predicted 2025 US energy use:  29284.468724693055
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">predicted_EURO_2025_ls</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="n">coeff_EURO</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted 2025 US energy use: &quot;</span><span class="p">,</span><span class="n">predicted_US_2025_ls</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">11</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Predicted 2025 EURO energy use: &quot;</span><span class="p">,</span><span class="n">predicted_EUR_2025_ls</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;predicted_EUR_2025_ls&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 
