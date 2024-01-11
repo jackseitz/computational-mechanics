@@ -5,9 +5,9 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.10.3
+    jupytext_version: 1.11.4
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
@@ -53,6 +53,7 @@ $  \left[ \begin{array}{cccccccccccccc}
 ```{code-cell} ipython3
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.linalg as la
 plt.style.use('fivethirtyeight')
 ```
 
@@ -90,6 +91,8 @@ print(np.linalg.cond(K[2:13,2:13]))
 
 print('expected error in x=solve(K,b) is {}'.format(10**(16-16)))
 print('expected error in x=solve(K[2:13,2:13],b) is {}'.format(10**(2-16)))
+
+'''The condition number is most likely so large due to the matrix being ill-conditioned, leading to numerical instability and large error values.'''
 ```
 
 ### 2. Apply a 300-N downward force to the central top node (n 4)
@@ -117,7 +120,77 @@ d. Create a plot of the undeformed and deformed structure with the displacements
 ![Deformed structure with loads applied](../images/deformed_truss.png)
 
 ```{code-cell} ipython3
- 
+#Part a
+E_steel = 200e9 
+E_aluminum = 70e9
+A = 0.1e-6
+
+K_reduced = K[2:13, 2:13]
+P, L, U = la.lu(K_reduced)
+```
+
+```{code-cell} ipython3
+#Part b
+F = np.zeros((14, 1))
+F[5] = -300  
+
+# Solve for displacements
+y_aluminum = la.solve(U, la.solve(L, P.T @ F[2:13]) / (E_aluminum * A))
+
+print("Displacements (m): ")
+print(y_aluminum)
+```
+
+```{code-cell} ipython3
+#Part c
+u_full = np.zeros_like(F)
+u_full[2:13] = y_aluminum
+
+#Calculate reaction forces
+reaction_forces_aluminum = K @ u_full
+
+print("Reaction forces: ")
+print(reaction_forces_aluminum)
+```
+
+```{code-cell} ipython3
+#Part d
+
+# For aluminum
+u_aluminum = np.zeros((14, 1))
+u_aluminum[2:13] = y_aluminum
+reaction_forces_aluminum = np.dot(K, u_aluminum)
+
+node_positions = np.array([[i, 0] for i in range(0, 1000, 200)])
+
+# Plot the undeformed structure
+for i in range(len(node_positions)-1):
+    plt.plot(node_positions[i:i+2, 0], node_positions[i:i+2, 1], 'k--')
+
+# Plot the deformed structure for aluminum (scaled displacements)
+deformation_scale = 5.0  # Scale factor for displacements
+for i in range(2, 13):
+    # Plot the deformed positions of the nodes
+    plt.plot(
+        [node_positions[i-2, 0], node_positions[i-2, 0] + deformation_scale * u_aluminum[i]],
+        [node_positions[i-2, 1], node_positions[i-2, 1] + deformation_scale * u_aluminum[i+1]],
+        'b-'
+    )
+
+# Plot the reaction forces as vectors
+for i in range(2, 13):
+    plt.quiver(
+        node_positions[i-2, 0], node_positions[i-2, 1],
+        reaction_forces_aluminum[i], reaction_forces_aluminum[i+1],
+        angles='xy', scale_units='xy', scale=1, color='r'
+    )
+
+plt.xlabel('x (mm)')
+plt.ylabel('y (mm)')
+plt.title('Deformed Structure with Displacements and Reaction Forces')
+plt.axis('equal')
+plt.grid(True)
+plt.show()
 ```
 
 ### 3. Determine cross-sectional area
