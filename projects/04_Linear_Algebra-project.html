@@ -540,6 +540,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">scipy.linalg</span> <span class="k">as</span> <span class="nn">la</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;fivethirtyeight&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -618,6 +619,8 @@ document.write(`
 
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;expected error in x=solve(K,b) is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mi">16</span><span class="o">-</span><span class="mi">16</span><span class="p">)))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;expected error in x=solve(K[2:13,2:13],b) is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="mi">16</span><span class="p">)))</span>
+
+<span class="sd">&#39;&#39;&#39;The condition number is most likely so large due to the matrix being ill-conditioned, leading to numerical instability and large error values.&#39;&#39;&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -626,6 +629,9 @@ document.write(`
 52.235425143510014
 expected error in x=solve(K,b) is 1
 expected error in x=solve(K[2:13,2:13],b) is 1e-14
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;The condition number is most likely so large due to the matrix being ill-conditioned, leading to numerical instability and large error values.&#39;
 </pre></div>
 </div>
 </div>
@@ -649,6 +655,205 @@ Including background information and the source code for this plot
 below.</p>
 </div></blockquote>
 <p><img alt="Deformed structure with loads applied" src="../_images/deformed_truss.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part a</span>
+<span class="n">E_steel</span> <span class="o">=</span> <span class="mf">200e9</span> 
+<span class="n">E_aluminum</span> <span class="o">=</span> <span class="mf">70e9</span>
+<span class="n">A</span> <span class="o">=</span> <span class="mf">0.1e-6</span>
+
+<span class="n">K_reduced</span> <span class="o">=</span> <span class="n">K</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span>
+<span class="n">P</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">U</span> <span class="o">=</span> <span class="n">la</span><span class="o">.</span><span class="n">lu</span><span class="p">(</span><span class="n">K_reduced</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part b</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">F</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">300</span>  
+
+<span class="c1"># Solve for displacements</span>
+<span class="n">y_aluminum</span> <span class="o">=</span> <span class="n">la</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">la</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">E_aluminum</span> <span class="o">*</span> <span class="n">A</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Displacements (m): &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_aluminum</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Displacements (m): 
+[[ 16.49572198]
+ [-20.95238095]
+ [  4.94871659]
+ [-39.04761905]
+ [  6.59828879]
+ [-34.28571429]
+ [ 12.37179148]
+ [-25.23809524]
+ [  1.6495722 ]
+ [-13.33333333]
+ [ 14.84614978]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part c</span>
+<span class="n">u_full</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+<span class="n">u_full</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_aluminum</span>
+
+<span class="c1">#Calculate reaction forces</span>
+<span class="n">reaction_forces_aluminum</span> <span class="o">=</span> <span class="n">K</span> <span class="o">@</span> <span class="n">u_full</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reaction forces: &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reaction_forces_aluminum</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reaction forces: 
+[[-1.73472348e-17]
+ [ 2.85714286e-02]
+ [ 0.00000000e+00]
+ [-9.54097912e-18]
+ [-3.46944695e-18]
+ [-4.28571429e-02]
+ [ 0.00000000e+00]
+ [ 1.38777878e-17]
+ [ 0.00000000e+00]
+ [-3.20923843e-17]
+ [ 1.73472348e-18]
+ [ 1.04083409e-17]
+ [-6.93889390e-18]
+ [ 1.42857143e-02]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part d</span>
+
+<span class="c1"># For aluminum</span>
+<span class="n">u_aluminum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">u_aluminum</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_aluminum</span>
+<span class="n">reaction_forces_aluminum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">u_aluminum</span><span class="p">)</span>
+
+<span class="n">node_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)])</span>
+
+<span class="c1"># Plot the undeformed structure</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_positions</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k--&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the deformed structure for aluminum (scaled displacements)</span>
+<span class="n">deformation_scale</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># Scale factor for displacements</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+    <span class="c1"># Plot the deformed positions of the nodes</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">deformation_scale</span> <span class="o">*</span> <span class="n">u_aluminum</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+        <span class="p">[</span><span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">deformation_scale</span> <span class="o">*</span> <span class="n">u_aluminum</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]],</span>
+        <span class="s1">&#39;b-&#39;</span>
+    <span class="p">)</span>
+
+<span class="c1"># Plot the reaction forces as vectors</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span>
+        <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">reaction_forces_aluminum</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">reaction_forces_aluminum</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span>
+    <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x (mm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y (mm)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Deformed Structure with Displacements and Reaction Forces&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">18</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">deformation_scale</span> <span class="o">=</span> <span class="mf">5.0</span>  <span class="c1"># Scale factor for displacements</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="c1"># Plot the deformed positions of the nodes</span>
+<span class="ne">---&gt; </span><span class="mi">18</span>     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>         <span class="p">[</span><span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">deformation_scale</span> <span class="o">*</span> <span class="n">u_aluminum</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>         <span class="p">[</span><span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">node_positions</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">deformation_scale</span> <span class="o">*</span> <span class="n">u_aluminum</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]],</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>         <span class="s1">&#39;b-&#39;</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="c1"># Plot the reaction forces as vectors</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/pyplot.py:3575,</span> in <span class="ni">plot</span><span class="nt">(scalex, scaley, data, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3567</span> <span class="nd">@_copy_docstring_and_deprecators</span><span class="p">(</span><span class="n">Axes</span><span class="o">.</span><span class="n">plot</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3568</span> <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3569</span>     <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">ArrayLike</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3573</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3574</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]:</span>
+<span class="ne">-&gt; </span><span class="mi">3575</span>     <span class="k">return</span> <span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3576</span>         <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3577</span>         <span class="n">scalex</span><span class="o">=</span><span class="n">scalex</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3578</span>         <span class="n">scaley</span><span class="o">=</span><span class="n">scaley</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3579</span>         <span class="o">**</span><span class="p">({</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span> <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}),</span>
+<span class="g g-Whitespace">   </span><span class="mi">3580</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3581</span>     <span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_axes.py:1721,</span> in <span class="ni">Axes.plot</span><span class="nt">(self, scalex, scaley, data, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1478</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1479</span><span class="sd"> Plot y versus x as lines and/or markers.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1480</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1718</span><span class="sd"> (``&#39;green&#39;``) or hex strings (``&#39;#008000&#39;``).</span>
+<span class="g g-Whitespace">   </span><span class="mi">1719</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1720</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">normalize_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1721</span> <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1722</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1723</span>     <span class="bp">self</span><span class="o">.</span><span class="n">add_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_base.py:303,</span> in <span class="ni">_process_plot_var_args.__call__</span><span class="nt">(self, axes, data, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">301</span>     <span class="n">this</span> <span class="o">+=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">302</span>     <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="ne">--&gt; </span><span class="mi">303</span> <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_args</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">304</span>     <span class="n">axes</span><span class="p">,</span> <span class="n">this</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">ambiguous_fmt_datakey</span><span class="o">=</span><span class="n">ambiguous_fmt_datakey</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/axes/_base.py:488,</span> in <span class="ni">_process_plot_var_args._plot_args</span><span class="nt">(self, axes, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)</span>
+<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">kw</span><span class="p">[</span><span class="n">prop_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+<span class="g g-Whitespace">    </span><span class="mi">487</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">488</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">_check_1d</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">y</span> <span class="o">=</span> <span class="n">_check_1d</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/matplotlib/cbook.py:1358,</span> in <span class="ni">_check_1d</span><span class="nt">(x)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1352</span> <span class="c1"># plot requires `shape` and `ndim`.  If passed an</span>
+<span class="g g-Whitespace">   </span><span class="mi">1353</span> <span class="c1"># object that doesn&#39;t provide them, then force to numpy array.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1354</span> <span class="c1"># Note this will strip unit information.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1355</span> <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;shape&#39;</span><span class="p">)</span> <span class="ow">or</span>
+<span class="g g-Whitespace">   </span><span class="mi">1356</span>         <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;ndim&#39;</span><span class="p">)</span> <span class="ow">or</span>
+<span class="g g-Whitespace">   </span><span class="mi">1357</span>         <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1358</span>     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1359</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1360</span>     <span class="k">return</span> <span class="n">x</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/numpy/core/shape_base.py:65,</span> in <span class="ni">atleast_1d</span><span class="nt">(*arys)</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span> <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="k">for</span> <span class="n">ary</span> <span class="ow">in</span> <span class="n">arys</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">65</span>     <span class="n">ary</span> <span class="o">=</span> <span class="n">asanyarray</span><span class="p">(</span><span class="n">ary</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">66</span>     <span class="k">if</span> <span class="n">ary</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span>         <span class="n">result</span> <span class="o">=</span> <span class="n">ary</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="ne">ValueError</span>: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (2,) + inhomogeneous part.
+</pre></div>
+</div>
+<img alt="../_images/953f90241dd96513254fd116913b010b719fcdf6b84805f82608870fcc8dd888.png" src="../_images/953f90241dd96513254fd116913b010b719fcdf6b84805f82608870fcc8dd888.png" />
+</div>
+</div>
 </section>
 <section id="determine-cross-sectional-area">
 <h3>3. Determine cross-sectional area<a class="headerlink" href="#determine-cross-sectional-area" title="Permalink to this heading">#</a></h3>
