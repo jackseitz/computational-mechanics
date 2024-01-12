@@ -150,18 +150,18 @@ u_full[2:13] = y_aluminum
 reaction_forces_aluminum = K @ u_full
 
 print("Reaction forces: ")
-print(reaction_forces_aluminum)
+print(reaction_forces_aluminum) 
 ```
 
 ```{code-cell} ipython3
 #Part d
 
 # For aluminum
-u_aluminum = np.zeros((14, 1))
+u_aluminum = np.zeros((14,1), dtype=object)
 u_aluminum[2:13] = y_aluminum
 reaction_forces_aluminum = np.dot(K, u_aluminum)
 
-node_positions = np.array([[i, 0] for i in range(0, 1000, 200)])
+node_positions = np.array([[i, 0] for i in range(0, 1200, 200)])
 
 # Plot the undeformed structure
 for i in range(len(node_positions)-1):
@@ -185,12 +185,15 @@ for i in range(2, 13):
         angles='xy', scale_units='xy', scale=1, color='r'
     )
 
+plt.figure()
 plt.xlabel('x (mm)')
 plt.ylabel('y (mm)')
 plt.title('Deformed Structure with Displacements and Reaction Forces')
 plt.axis('equal')
 plt.grid(True)
 plt.show()
+
+'''Was confused about this part for plotting. Hoping to get some feedback and a helpful hint so that I can adjust the code and create the proper plot'''
 ```
 
 ### 3. Determine cross-sectional area
@@ -203,7 +206,42 @@ c. What are the weights of the aluminum and steel trusses with the
 chosen cross-sectional areas?
 
 ```{code-cell} ipython3
+import numpy as np
 
+E_steel = 200e9
+E_aluminum = 70e9 
+F = np.zeros((14, 1))
+F[5] = -300 
+
+K[2:13, 2:13] = la.lu(K[2:13, 2:13])[1]
+
+density_steel = 7850
+density_aluminum = 2700
+
+max_deflection = 0.2e-3
+
+def calculate_min_cross_sectional_area(E, density):
+    for A in np.linspace(1e-8, 1e-4, 10000):  
+        K_scaled = K * E * A
+        K_reduced = K_scaled[2:13, 2:13]
+        F_reduced = F[2:13]
+
+        u = np.linalg.solve(K_reduced, F_reduced)
+
+        total_y_deflection = np.sum(np.abs(u[1::2])) 
+
+        if total_y_deflection < max_deflection:
+            weight = density * A * (np.linalg.norm(K_scaled, axis=1).sum())
+            return A, weight
+    return None, None
+
+min_area_aluminum, weight_aluminum = calculate_min_cross_sectional_area(E_aluminum, density_aluminum)
+min_area_steel, weight_steel = calculate_min_cross_sectional_area(E_steel, density_steel)
+
+print("Aluminum minimum area: ",min_area_aluminum) 
+print("Aluminum weight: ",weight_aluminum)
+print("Steel minimum area: ",min_area_steel)
+print("Steel weight: ",weight_steel)
 ```
 
 ## References

@@ -709,7 +709,7 @@ below.</p>
 <span class="n">reaction_forces_aluminum</span> <span class="o">=</span> <span class="n">K</span> <span class="o">@</span> <span class="n">u_full</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reaction forces: &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">reaction_forces_aluminum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reaction_forces_aluminum</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
@@ -738,11 +738,11 @@ below.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Part d</span>
 
 <span class="c1"># For aluminum</span>
-<span class="n">u_aluminum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">u_aluminum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 <span class="n">u_aluminum</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_aluminum</span>
 <span class="n">reaction_forces_aluminum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">u_aluminum</span><span class="p">)</span>
 
-<span class="n">node_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">200</span><span class="p">)])</span>
+<span class="n">node_positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)])</span>
 
 <span class="c1"># Plot the undeformed structure</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_positions</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
@@ -766,12 +766,15 @@ below.</p>
         <span class="n">angles</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale_units</span><span class="o">=</span><span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span>
     <span class="p">)</span>
 
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x (mm)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;y (mm)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Deformed Structure with Displacements and Reaction Forces&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="sd">&#39;&#39;&#39;Was confused about this part for plotting. Hoping to get some feedback and a helpful hint so that I can adjust the code and create the proper plot&#39;&#39;&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -851,7 +854,7 @@ below.</p>
 <span class="ne">ValueError</span>: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (2,) + inhomogeneous part.
 </pre></div>
 </div>
-<img alt="../_images/953f90241dd96513254fd116913b010b719fcdf6b84805f82608870fcc8dd888.png" src="../_images/953f90241dd96513254fd116913b010b719fcdf6b84805f82608870fcc8dd888.png" />
+<img alt="../_images/622cb3783db1396df4019ed40bae588da1ddedad7bffbe1850ba76c6c945fa57.png" src="../_images/622cb3783db1396df4019ed40bae588da1ddedad7bffbe1850ba76c6c945fa57.png" />
 </div>
 </div>
 </section>
@@ -861,6 +864,48 @@ below.</p>
 <p>b. Using steel, what is the minimum cross-sectional area to keep total y-deflections <span class="math notranslate nohighlight">\(&lt;0.2~mm\)</span>?</p>
 <p>c. What are the weights of the aluminum and steel trusses with the
 chosen cross-sectional areas?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">E_steel</span> <span class="o">=</span> <span class="mf">200e9</span>
+<span class="n">E_aluminum</span> <span class="o">=</span> <span class="mf">70e9</span> 
+<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">F</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">300</span> 
+
+<span class="n">K</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span> <span class="o">=</span> <span class="n">la</span><span class="o">.</span><span class="n">lu</span><span class="p">(</span><span class="n">K</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">density_steel</span> <span class="o">=</span> <span class="mi">7850</span>
+<span class="n">density_aluminum</span> <span class="o">=</span> <span class="mi">2700</span>
+
+<span class="n">max_deflection</span> <span class="o">=</span> <span class="mf">0.2e-3</span>
+
+<span class="k">def</span> <span class="nf">calculate_min_cross_sectional_area</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">density</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="mi">10000</span><span class="p">):</span>  
+        <span class="n">K_scaled</span> <span class="o">=</span> <span class="n">K</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">A</span>
+        <span class="n">K_reduced</span> <span class="o">=</span> <span class="n">K_scaled</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span>
+        <span class="n">F_reduced</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span>
+
+        <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K_reduced</span><span class="p">,</span> <span class="n">F_reduced</span><span class="p">)</span>
+
+        <span class="n">total_y_deflection</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span> 
+
+        <span class="k">if</span> <span class="n">total_y_deflection</span> <span class="o">&lt;</span> <span class="n">max_deflection</span><span class="p">:</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">density</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">K_scaled</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">A</span><span class="p">,</span> <span class="n">weight</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+<span class="n">min_area_aluminum</span><span class="p">,</span> <span class="n">weight_aluminum</span> <span class="o">=</span> <span class="n">calculate_min_cross_sectional_area</span><span class="p">(</span><span class="n">E_aluminum</span><span class="p">,</span> <span class="n">density_aluminum</span><span class="p">)</span>
+<span class="n">min_area_steel</span><span class="p">,</span> <span class="n">weight_steel</span> <span class="o">=</span> <span class="n">calculate_min_cross_sectional_area</span><span class="p">(</span><span class="n">E_steel</span><span class="p">,</span> <span class="n">density_steel</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aluminum minimum area: &quot;</span><span class="p">,</span><span class="n">min_area_aluminum</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aluminum weight: &quot;</span><span class="p">,</span><span class="n">weight_aluminum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Steel minimum area: &quot;</span><span class="p">,</span><span class="n">min_area_steel</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Steel weight: &quot;</span><span class="p">,</span><span class="n">weight_steel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="references">
